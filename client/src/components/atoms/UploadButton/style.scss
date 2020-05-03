@@ -1,0 +1,44 @@
+@import "../../../styles/variables";
+
+.upload-file {
+  position: relative;
+  padding: 0.5rem;
+  background-color: $blue;
+  width: max-content;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  color: $white;
+  margin-top: $default-margin;
+
+  &__icon {
+    margin-right: 0.25rem;
+  }
+
+  &__file-btn {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    color: transparent;
+    outline: none;
+    opacity: 0;
+  }
+}
+
+
+::-webkit-file-upload-button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  z-index: 10;
+  color: transparent;
+  outline: none;
+  cursor: pointer;
+}

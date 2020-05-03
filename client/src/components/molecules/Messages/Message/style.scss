@@ -1,0 +1,60 @@
+@import "./../../../../styles/variables";
+
+.message {
+  $self: &;
+
+  display: flex;
+  padding: 0 5%;
+  margin-top: 0.2rem;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  max-width: 70%;
+  margin-left: auto;
+
+
+  .sent-text {
+    padding-left: $default-padding;
+    color: #828282;
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+    letter-spacing: 0.3px;
+    margin-bottom: 0;
+  }
+
+  &-text {
+    width: 100%;
+    letter-spacing: 0;
+    float: left;
+    font-size: 1.1rem;
+    word-wrap: break-word;
+    margin-bottom: 0;
+  }
+
+  &-box {
+    border-radius: 0.75rem 0.75rem 0 0.75rem;
+    box-shadow: 0 0.3rem 0.3rem rgba(54, 116, 255, 0.196733);
+    background: $white;
+    color: $black;
+    padding: 0.625rem 1.25rem;
+    display: inline-block;
+    max-width: 80%;
+  }
+
+  &--self {
+    flex-direction: row;
+    margin-right: auto;
+    margin-left: 0;
+
+    #{ $self }-box {
+      border-radius: 0.75rem 0.75rem 0.75rem 0;
+      background: $blue;
+      color: $white;
+    }
+
+    .sent-text {
+      padding-right: $default-padding;
+    }
+  }
+}
+

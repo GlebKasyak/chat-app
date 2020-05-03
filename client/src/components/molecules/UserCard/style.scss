@@ -1,0 +1,16 @@
+@import "./../../../styles/variables";
+
+.user-card {
+  padding: 0 $default-padding;
+  margin-bottom: $default-margin;
+
+  &__card {
+    max-width: 300px;
+    width: 100%;
+  }
+
+  @media (max-width: 991px) {
+    display: flex;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,14 @@
+@import "../../styles/variables";
+
+.user-page-search {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $default-margin;
+}
+
+.user-page {
+
+  &__user-list {
+    height: 100vh;
+  }
+}

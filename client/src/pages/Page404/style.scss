@@ -1,0 +1,5 @@
+@import "./../../styles/variables";
+
+.page-404 {
+  @extend %display-flex-center;
+}
