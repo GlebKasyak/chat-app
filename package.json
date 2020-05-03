@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "npm run build --prefix client",
-    "server": "nodemon dist/server/app.js",
+    "server": "nodemon server/app.ts",
     "start": "cross-env NODE_ENV=production node dist/server/app.js",
     "client": "npm run start --prefix client",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
