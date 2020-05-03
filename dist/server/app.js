@@ -118,8 +118,11 @@ io.on("connection", function (socket) {
         socket.disconnect(true);
     });
 });
+console.log(path_1.default.join(__dirname, "uploads"))
+console.log(path_1.default.join(__dirname, "../../client", "build"))
+console.log(path_1.default.resolve(__dirname, "../../client", "build", "index.html"))
 app.use("/uploads", express_1.default.static(path_1.default.join(__dirname, "uploads")));
-app.use(express_1.default.static(path_1.default.join(__dirname, "../client", "build")));
+app.use(express_1.default.static(path_1.default.join(__dirname, "../../client", "build")));
 app.get("*", function (req, res) {
     res.sendFile(path_1.default.resolve(__dirname, "../../client", "build", "index.html"));
 });

@@ -68,7 +68,6 @@ io.on("connection", socket => {
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-console.log(path.join(__dirname, "../client", "build"))
 if(config.IS_PRODUCTION) {
     app.use(express.static(path.join(__dirname, "client", "build")));
 
