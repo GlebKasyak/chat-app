@@ -4,13 +4,13 @@
   "description": "auth-plate",
   "main": "app.ts",
   "engine": {
-    "npm": "6.12.0",
-    "node": "10.16.0"
+    "npm": "6.14.4",
+    "node": "12.16.2"
   },
   "scripts": {
     "build": "npm run build --prefix client",
     "server": "nodemon dist/server/app.js",
-    "start": "node dist/server/app.js",
+    "start": "cross-env NODE_ENV=production node dist/server/app.js",
     "client": "npm run start --prefix client",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "cross-env NODE_ENV=production NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build"
