@@ -119,12 +119,10 @@ io.on("connection", function (socket) {
     });
 });
 app.use("/uploads", express_1.default.static(path_1.default.join(__dirname, "uploads")));
-if (config_1.default.IS_PRODUCTION) {
-    app.use(express_1.default.static(path_1.default.join(__dirname, "client", "build")));
-    app.get("*", function (req, res) {
-        res.sendFile(path_1.default.resolve(__dirname, "../client", "build", "index.html"));
-    });
-}
+app.use(express_1.default.static(path_1.default.join(__dirname, "client", "build")));
+app.get("*", function (req, res) {
+    res.sendFile(path_1.default.resolve(__dirname, "../../client", "build", "index.html"));
+});
 server.listen(config_1.default.PORT, function () {
     console.log("Server up on " + config_1.default.PORT);
 });
