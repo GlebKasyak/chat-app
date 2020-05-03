@@ -8,13 +8,12 @@ import dotenvExtended from "dotenv-extended";
 
 import { MessageService, DialogService } from "./services";
 import { IMessageDocument } from "./interfaces/MessageInterface";
-import { MessagesPortionType, IDialogDocument } from "./interfaces/DialogInterface";
+import { MessagesPortionType } from "./interfaces/DialogInterface";
 import { Callback } from "./interfaces";
 
 import connectToDb from "./db";
 import config from "./config";
 import rootRouter from "./routes";
-import {clearScreenDown} from "readline";
 
 
 dotenvExtended.load();
