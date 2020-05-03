@@ -110,8 +110,9 @@ const LoginFormContainer: FC<PropsType> = memo((
 // type InitialValueType = {
 //     [key: string]: any
 // };
+// Array<InitialValueType>
 
-const setLoginFormFields = (initialValues: any) => {
+const setLoginFormFields = (initialValues: Array<any>) => {
     const fields: Array<FieldsType> = [
         {
             labelField: "Email",
