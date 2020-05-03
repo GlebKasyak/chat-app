@@ -1,0 +1,9 @@
+@import "../../../styles/variables";
+
+.search {
+  display: flex;
+
+  &__input {
+    margin-right: $default-margin;
+  }
+}

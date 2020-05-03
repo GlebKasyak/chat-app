@@ -1,0 +1,54 @@
+@import "./../../../styles/variables";
+
+.dialog-item {
+  position: relative;
+
+  &__avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  &__link {
+    width: 100%;
+
+    &:hover {
+      background: rgba(166, 189, 240, .13);
+    }
+  }
+
+  .last-message {
+    position: relative;
+
+    &__author {
+      font-size: 0.75rem;
+      margin-right: $default-margin;
+      color: $blue;
+    }
+
+    &__message {
+      word-break: break-word;
+    }
+
+    &__avatar {
+      width: 2rem;
+      height: 2rem;
+      object-fit: cover;
+      margin-right: 0.25rem;
+    }
+  }
+
+
+  &__btn {
+    margin-left: $default-margin;
+  }
+
+
+  @media (max-width: 576px) {
+    &__btn {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+  }
+
+}

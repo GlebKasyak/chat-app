@@ -1,0 +1,75 @@
+@import "../../styles/variables";
+
+.chat-page {
+  $self: &;
+
+  max-width: 650px;
+  width: 100%;
+  position: relative;
+
+  &__window {
+    @extend %display-flex-center;
+
+    margin-bottom: $default-margin + 3;
+
+    .infinite-container {
+      position: relative;
+      height: 400px;
+      width: 100%;
+      overflow: auto;
+    }
+  }
+
+  &__form {
+    @extend %display-flex-center;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+
+    #{ $self }__smile-btn {
+      position: absolute;
+      left: -40px;
+      bottom: 30px;
+    }
+
+    #{ $self }__emoji-picker {
+      position: absolute;
+      z-index: 1;
+      bottom: 60px;
+      left: 0;
+    }
+  }
+
+  @media(max-width: 767px) {
+    &__form {
+      bottom: -1rem;
+      flex-direction: column;
+
+      #{ $self }__emoji-picker {
+        bottom: 100px;
+        left: auto;
+      }
+
+      .btn {
+        margin-top: 0.675rem;
+      }
+    }
+  }
+
+  @media(max-width: 575px) {
+      &__form {
+
+        #{ $self }__emoji-picker {
+
+          .emoji-mart {
+            width: 250px!important;
+          }
+        }
+      }
+  }
+}
+
+

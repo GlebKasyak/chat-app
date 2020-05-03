@@ -1,0 +1,37 @@
+@import "../../../styles/variables";
+
+.navbar-wrapper {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+  background-color: $white;
+
+  .navbar {
+    font-size: $font-size;
+    margin-bottom: $default-margin + 1;
+    display: flex;
+  }
+
+  .navbar--left {
+    justify-content: flex-start;
+
+    & > .ant-menu-item:nth-last-child(2) {
+      position: absolute;
+      right: 0;
+    }
+  }
+}
+
+.navbar {
+
+  &__item {
+    font-size: 1.13rem!important;
+  }
+
+  &--right {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
