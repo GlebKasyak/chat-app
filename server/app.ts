@@ -14,6 +14,7 @@ import { Callback } from "./interfaces";
 import connectToDb from "./db";
 import config from "./config";
 import rootRouter from "./routes";
+import {clearScreenDown} from "readline";
 
 
 dotenvExtended.load();
