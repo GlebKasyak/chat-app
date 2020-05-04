@@ -30,7 +30,7 @@ const ChatPage: FC<PropsType> = props => (
 
         <Row className="chat-page__window" >
             <div className="infinite-container" ref={ props.messagesEndRef  } onScroll={ props.onScroll } >
-                {!!props.messages.length &&
+                { !!props.messages.length &&
                     <>
                         { props.isLoading &&
                             <Preloader text="Messages are loading" modifier="top-scroll-loader" />

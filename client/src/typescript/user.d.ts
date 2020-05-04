@@ -1,4 +1,4 @@
-import { ICommon } from "./common";
+import { IDbDocumentType } from "./common";
 
 export interface UserState {
     user: IUser,
@@ -6,7 +6,7 @@ export interface UserState {
     users: Array<IUser>
 }
 
-export interface IUser extends ICommon{
+export interface IUser extends IDbDocumentType{
     firstName: string,
     secondName: string,
     email: string,

@@ -1,13 +1,14 @@
 import React, { FC } from "react";
 import { Divider, Col, Row, Typography, Button } from "antd";
 
+import { DescriptionItem, UploadButton } from "../../components";
+import "./style.scss";
+
 import { IUser } from "../../typescript/user";
 import { timeFromNow } from "../../shared/helpres";
 import { SERVER_URL } from "../../shared/constants";
 import showConfirm from "../../shared/showConfirm";
 
-import { DescriptionItem, UploadButton } from "../../components";
-import "./style.scss";
 
 type PropsType = {
     user: IUser,
@@ -18,6 +19,7 @@ const ProfilePage: FC<PropsType> = ({ user, onClick }) => (
     <div className="profile container">
         <Typography.Title level={4} >User Profile</Typography.Title>
         <p className="profile__section" >Personal</p>
+
         <DescriptionItem title="The first name" content={ user.firstName } />
         <DescriptionItem title="The second name" content={ user.secondName } />
         <DescriptionItem title="Register date" content={ timeFromNow(user.createdAt!) } />
@@ -35,8 +37,10 @@ const ProfilePage: FC<PropsType> = ({ user, onClick }) => (
                 <UploadButton text="Update avatar" />
             </Col>
         </Row>
+
         <Divider />
         <p className="profile__section" >Contacts</p>
+
         <DescriptionItem title="Email" content={ user.email } />
         <Button
             onClick={ () => showConfirm(onClick) }

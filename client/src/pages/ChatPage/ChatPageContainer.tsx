@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import { BaseEmoji } from "emoji-mart";
 import io from "socket.io-client";
 
+import ChatPage from "./ChatPage";
+
 import { SERVER_URL } from "../../shared/constants";
 import { getDataFromQueryUrl } from "../../shared/helpres";
 import { AppStateType } from "../../store/reducers";
@@ -13,7 +15,6 @@ import { Handlers } from "../../typescript/common";
 import { IUser } from "../../typescript/user";
 import { IMessage } from "../../typescript/dialog";
 
-import ChatPage from "./ChatPage";
 
 const socket = io( SERVER_URL );
 

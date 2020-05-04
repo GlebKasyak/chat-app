@@ -41,7 +41,11 @@ const DialogItem: FC<PropsType> = (
                 }
             />
         </Link>
-        <Button type="danger" onClick={ onClick.bind(null, dialogId) } className="dialog-item__btn" >
+        <Button
+            onClick={ onClick.bind(null, dialogId) }
+            type="danger"
+            className="dialog-item__btn"
+        >
             Delete dialog
         </Button>
     </List.Item>

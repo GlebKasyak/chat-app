@@ -20,6 +20,7 @@ const RegisterForm: React.FC<IRegisterForm> = (
     }) => (
     <div className="container">
       <Col { ...formWrapperLayout } offset={4} className="form"  >
+
         <Form  { ...formItemLayout } onSubmit={ onSubmit } >
           { registerFormFields.map(field =>
               <InputFormField
@@ -38,6 +39,7 @@ const RegisterForm: React.FC<IRegisterForm> = (
             </Button>
           </Form.Item>
         </Form>
+
       </Col>
     </div>
 );

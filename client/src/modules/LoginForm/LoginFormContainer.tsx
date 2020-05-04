@@ -4,10 +4,9 @@ import { Form } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 
 import LoginForm from "./LoginForm";
-import { login, ThunkDispatchUsersType } from "../../store/actions/user.action";
-
 import { ErrorMessage, Preloader, Recaptcha } from "../../components";
 
+import { login, ThunkDispatchUsersType } from "../../store/actions/user.action";
 import { storageKeys } from "../../shared/constants";
 import rememberMe from "../../shared/rememberMe";
 
@@ -45,6 +44,7 @@ const LoginFormContainer: FC<PropsType> = memo((
 
         const response = await login(data);
         if(!response.success) setErr(response.message!);
+
         setIsLoading(false);
         form.resetFields();
     };

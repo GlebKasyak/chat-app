@@ -5,7 +5,7 @@ import { AppStateType } from "../../../store/reducers";
 import { Handlers, ResponseType } from "../../../typescript/common";
 
 import Search from "./Search";
-import { ErrorMessage } from "./../../"
+import { ErrorMessage } from "./../../index";
 
 type MapStateToProps = {
     token: string,
@@ -14,12 +14,13 @@ type MapStateToProps = {
 
 type OwnProps = {
     callback: (value: string, token: string, userId: string) => Promise<ResponseType>,
-    tooltip: string
+    tooltip: string,
+    placeholder: string
 }
 
 type PropsType = MapStateToProps & OwnProps;
 
-const SearchContainer: FC<PropsType> = ({ token, userId, callback, tooltip }) => {
+const SearchContainer: FC<PropsType> = ({ token, userId, callback, tooltip, placeholder }) => {
     const [value, setValue] = useState("");
     const [prevValue, setPrevValue] = useState("");
     const [err, setErr] = useState<string | null>(null);
@@ -43,6 +44,7 @@ const SearchContainer: FC<PropsType> = ({ token, userId, callback, tooltip }) =>
               setValue={ setValue }
               onSubmit={ handleSubmit }
               tooltip={ tooltip }
+              placeholder={ placeholder }
           />
       </>
     )

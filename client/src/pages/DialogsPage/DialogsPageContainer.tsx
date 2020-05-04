@@ -1,6 +1,9 @@
 import React, { FC, useEffect, useState, useCallback } from "react";
 import { connect } from "react-redux";
 
+import { EmptyComponent, Preloader } from "../../components";
+import DialogsPage from "./DialogsPage";
+
 import {
     getDialogsById,
     deleteDialogsById,
@@ -11,9 +14,6 @@ import {
 import { AppStateType } from "../../store/reducers";
 import { ResponseType, ScrollDataType } from "../../typescript/common";
 import { IDialog, IResponseDialogsData } from "../../typescript/dialog";
-
-import { EmptyComponent, Preloader } from "../../components";
-import DialogsPage from "./DialogsPage";
 
 
 type MapStateToPropsType = {

@@ -3,7 +3,6 @@ import { ScrollDataType } from "../typescript/common";
 import { CreateDialogDataType } from "../typescript/dialog";
 
 export class DialogAPI {
-
     static createDialog = (data: CreateDialogDataType, token: string) => {
         return instance.post("/dialog", data, {
             headers: { Authorization: `Bearer ${ token }` }

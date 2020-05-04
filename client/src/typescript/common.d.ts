@@ -34,7 +34,7 @@ export type FieldsType = {
     initialValue?: string
 }
 
-export interface ICommon {
+export interface IDbDocumentType {
     _id: string,
     createdAt?: string,
     updatedAt?: string

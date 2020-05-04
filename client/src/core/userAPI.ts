@@ -3,7 +3,6 @@ import { ScrollDataType } from "../typescript/common";
 import { LoginDataType, RegisterDataType } from "../typescript/user";
 
 export class UserAPI {
-
     static login = (data: LoginDataType) => {
         return instance.post("/user/login", data);
     };

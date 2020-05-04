@@ -1,4 +1,4 @@
-import { ICommon, ResponseType } from "./common";
+import { IDbDocumentType, ResponseType } from "./common";
 import { IUser } from "./user";
 
 export interface CreateDialogDataType {
@@ -17,14 +17,14 @@ export type LastMessageType = {
     name: string
 }
 
-export interface IDialog extends ICommon {
+export interface IDialog extends IDbDocumentType {
     author: IUser,
     partner: IUser,
     messages?: Array<IMessage>,
     lastMessage: LastMessageType
 }
 
-export interface IMessage extends ICommon {
+export interface IMessage extends IDbDocumentType {
     message: string,
     author: IUser,
     dialog: string,

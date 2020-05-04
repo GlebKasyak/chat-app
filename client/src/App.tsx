@@ -2,17 +2,15 @@ import React, { useEffect, FC } from "react";
 import { connect } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 
-import { AppStateType } from "./store/reducers";
-
-import "./styles/app.scss";
-
 import { Home, UsersPage, DialogsPage, ChatPage, ProfilePage, Page404 } from "./pages";
 import { NavBar } from "./components";
 import { LoginForm, RegisterForm } from "./modules";
 
+import { AppStateType } from "./store/reducers";
 import { Auth, DoNotAuth } from "./hoc";
 import { storageKeys } from "./shared/constants";
 import { getAuthUserData } from "./store/actions/user.action";
+import "./styles/app.scss";
 
 type MapStateToPropsType = {
   isAuth?: boolean,
@@ -22,9 +20,9 @@ type MapDispatchToPropsType = {
   getAuthUserData: (token: string) => void
 }
 
-type AppPropsType = MapStateToPropsType & MapDispatchToPropsType;
+type PropType = MapStateToPropsType & MapDispatchToPropsType;
 
-let App: FC<AppPropsType> = ({ isAuth, getAuthUserData }) => {
+let App: FC<PropType> = ({ isAuth, getAuthUserData }) => {
   useEffect(() => {
     const authData = localStorage.getItem(storageKeys.isAuth);
 

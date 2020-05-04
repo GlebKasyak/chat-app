@@ -9,30 +9,29 @@ type PropsType = {
     prevValue: string,
     setValue: SetStateType<string>,
     onSubmit: Handlers.SubmitType,
-    tooltip: string
+    tooltip: string,
+    placeholder: string
 }
 
-const Search: FC<PropsType> = ({ value, prevValue, setValue, onSubmit, tooltip }) => {
-  return (
-      <form onSubmit={ onSubmit } className="search" >
-          <Input
-              value={ value }
-              onChange={ e => setValue(e.target.value) }
-              className="search__input"
-              placeholder="Enter your request"
+const Search: FC<PropsType> = props => (
+    <form onSubmit={ props.onSubmit } className="search" >
+        <Input
+            value={ props.value }
+            onChange={ e => props.setValue(e.target.value) }
+            className="search__input"
+            placeholder={ props.placeholder }
 
-          />
-          <Tooltip title={ tooltip } >
-              <Button
-                  htmlType="submit"
-                  className="search__btn"
-                  icon="search"
-                  type="primary"
-                  disabled={ !value || prevValue === value }
-              />
-          </Tooltip>
-      </form>
-  )
-}
+        />
+        <Tooltip title={ props.tooltip } >
+            <Button
+                htmlType="submit"
+                className="search__btn"
+                icon="search"
+                type="primary"
+                disabled={ !props.value || props.prevValue === props.value }
+            />
+        </Tooltip>
+    </form>
+)
 
 export default Search;

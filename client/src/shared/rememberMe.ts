@@ -1,4 +1,3 @@
-// remember me in localstorage
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import { storageKeys } from "./constants";
 

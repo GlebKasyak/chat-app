@@ -8,7 +8,7 @@ import { InputFormField } from "../../components"
 import { formItemLayout, tailFormItemLayout, formWrapperLayout } from "../../shared/formLayout";
 import { Handlers, FieldsType } from "../../typescript/common";
 
-interface ILoginForm extends FormComponentProps{
+interface ILoginForm extends FormComponentProps {
     onSubmit: Handlers.SubmitType,
     loginFormFields: Array<FieldsType>
 }

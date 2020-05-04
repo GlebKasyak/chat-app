@@ -74,10 +74,7 @@ const UsersPageContainer: FC<PropsType> = (
 
     const createDialogHandler = async (partnerId: string) => {
         setIsLoading(true);
-        const data = {
-            author: userId,
-            partner: partnerId,
-        }
+        const data = { author: userId, partner: partnerId };
 
         await DialogAPI.createDialog(data, token);
         clearDialogList();

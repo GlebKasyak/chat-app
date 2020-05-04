@@ -23,6 +23,7 @@ const DialogsPage: FC<PropsType> = props => (
         <Search
             callback={ props.searchDialogs }
             tooltip="search by partner"
+            placeholder="Enter name of partner"
         />
         { !!props.dialogs.length && (
            <>

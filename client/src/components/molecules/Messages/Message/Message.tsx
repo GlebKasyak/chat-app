@@ -4,7 +4,6 @@ import cn from "classnames";
 import { IMessage } from "../../../../typescript/dialog";
 import "./style.scss";
 
-
 type PropsType = {
     message: IMessage,
     userId: string

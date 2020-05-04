@@ -7,7 +7,6 @@ type PropsType = {
     description: string | ReactNode
 }
 
-const EmptyComponent: FC<PropsType> = ({ description }) =>
-    <Empty description={ description } />;
+const EmptyComponent: FC<PropsType> = ({ description }) => <Empty description={ description } />;
 
 export default EmptyComponent;

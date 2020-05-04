@@ -3,12 +3,12 @@ import { Alert } from "antd";
 
 import "./style.scss";
 
-type ErrorMessagePropsType = {
+type PropType = {
     text: string,
     style?: CSSProperties
 };
 
-const ErrorMessage: FC<ErrorMessagePropsType> = ({ text, style}) => (
+const ErrorMessage: FC<PropType> = ({ text, style}) => (
     <Alert
         description={ text }
         style={ style }

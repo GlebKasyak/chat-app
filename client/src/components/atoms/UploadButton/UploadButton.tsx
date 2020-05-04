@@ -17,7 +17,6 @@ type OwnPropsType = { text: string };
 
 type PropsType = MapDispatchToPropsType & OwnPropsType;
 
-
 const UploadButton: FC<PropsType> = ({ text, uploadAvatar }) => {
     const token = JSON.parse(localStorage.getItem(storageKeys.userInfo) || "{}").token;
 

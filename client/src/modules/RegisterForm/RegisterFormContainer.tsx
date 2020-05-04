@@ -5,19 +5,15 @@ import { connect } from "react-redux";
 import { Form } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 
-import { UserAPI } from "../../core/userAPI";
-
 import { ErrorMessage, Preloader } from "../../components";
 import RegisterForm from "./RegisterForm";
 
+import { UserAPI } from "../../core/userAPI";
 import { AppStateType } from "../../store/reducers";
 import { Handlers, FieldsType } from "../../typescript/common";
 import { RegisterDataType } from "../../typescript/user";
 
-
-type PropsType = FormComponentProps;
-
-const RegisterFormContainer: FC<PropsType> = memo(({ form }) => {
+const RegisterFormContainer: FC<FormComponentProps> = memo(({ form }) => {
   const history: History = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const [err, setEr] = useState<string | null>(null);
@@ -40,9 +36,7 @@ const RegisterFormContainer: FC<PropsType> = memo(({ form }) => {
      setIsLoading(false);
      form.resetFields();
 
-     if(response.data.success) {
-       history.push("login");
-     }
+     if(response.data.success) history.push("login");
 
    } catch (err) {
      setEr(err.response.data.err.errmsg);

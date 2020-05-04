@@ -3,13 +3,12 @@ import { History } from "history";
 import { useHistory, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { Menu, Button } from "antd";
-import icons from "../../../shared/icons";
 
-import "./style.scss";
 import { logout } from "../../../store/actions/user.action";
-
 import { storageKeys } from "../../../shared/constants";
 import { AppStateType } from "../../../store/reducers";
+import icons from "../../../shared/icons";
+import "./style.scss";
 
 type MapStateToPropsType = {
     token: string
@@ -31,11 +30,11 @@ const NavBar: FC<NavBarPropsType> = ({ logout, token }) => {
         ? (
             <div className="navbar-wrapper">
                 <Menu
-                    mode="horizontal"
-                    theme="dark"
-                    className="navbar navbar--left"
                     defaultSelectedKeys={ [pathname] }
                     selectedKeys={ [pathname] }
+                    className="navbar navbar--left"
+                    mode="horizontal"
+                    theme="dark"
                 >
                     <Menu.Item key="/" className="navbar__item" >
                         <NavLink exact to="/" >
@@ -79,11 +78,11 @@ const NavBar: FC<NavBarPropsType> = ({ logout, token }) => {
             </div>)
         : (
             <Menu
-                mode="horizontal"
-                theme="dark"
-                className="navbar navbar--right"
                 defaultSelectedKeys={ [pathname] }
                 selectedKeys={ [pathname] }
+                className="navbar navbar--right"
+                mode="horizontal"
+                theme="dark"
             >
                 <Menu.Item key="/login" className="navbar__item" >
                     <NavLink to="/login" >
