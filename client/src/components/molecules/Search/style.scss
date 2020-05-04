@@ -4,6 +4,12 @@
   display: flex;
 
   &__input {
-    margin-right: $default-margin;
+    margin-right: $default-margin/2 !important;
+  }
+
+  @media (max-width: 575px) {
+    &__btn .ant-btn span {
+      display: none;
+    }
   }
 }

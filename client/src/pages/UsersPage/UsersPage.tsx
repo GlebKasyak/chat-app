@@ -24,7 +24,7 @@ const UsersPage: FC<PropsType> = ({ users, ...props }) => (
                 <Search
                     callback={ props.searchUserByEmail }
                     tooltip="search by email"
-                    placeholder="Enter user email"
+                    placeholder="User search by email"
                 />
             </Col>
         </Row>

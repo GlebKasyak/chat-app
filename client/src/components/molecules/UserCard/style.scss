@@ -1,16 +1,34 @@
 @import "./../../../styles/variables";
 
-.user-card {
-  padding: 0 $default-padding;
-  margin-bottom: $default-margin;
+.user-page {
 
-  &__card {
-    max-width: 300px;
-    width: 100%;
-  }
+  .user-card {
+    padding: 0 $default-padding;
+    margin-bottom: $default-margin;
 
-  @media (max-width: 991px) {
-    display: flex;
-    justify-content: center;
+    &__card {
+      max-width: 300px;
+      width: 100%;
+    }
+
+    &__title {
+      color: rgba(0, 0, 0, .75);
+    }
+
+    @media (max-width: 991px) {
+      display: flex;
+      justify-content: center;
+    }
+
+    @media (max-width: 575px) {
+      & .ant-card-body {
+        padding: 0.75rem;
+      }
+
+      &__card {
+        max-width: 350px;
+      }
+    }
   }
 }
+

@@ -1,6 +1,9 @@
 
-.error-message {
-  position: absolute;
-  width: 100%;
-  z-index: 2;
+.container {
+
+  .error-message {
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+  }
 }

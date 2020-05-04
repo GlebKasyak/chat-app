@@ -29,7 +29,9 @@ const Search: FC<PropsType> = props => (
                 icon="search"
                 type="primary"
                 disabled={ !props.value || props.prevValue === props.value }
-            />
+            >
+                Search
+            </Button>
         </Tooltip>
     </form>
 )

@@ -2,13 +2,12 @@ import React, { FC } from "react";
 import { Divider, Col, Row, Typography, Button } from "antd";
 
 import { DescriptionItem, UploadButton } from "../../components";
-import "./style.scss";
 
 import { IUser } from "../../typescript/user";
 import { timeFromNow } from "../../shared/helpres";
 import { SERVER_URL } from "../../shared/constants";
 import showConfirm from "../../shared/showConfirm";
-
+import "./style.scss";
 
 type PropsType = {
     user: IUser,

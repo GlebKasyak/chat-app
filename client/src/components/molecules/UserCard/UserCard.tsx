@@ -16,15 +16,21 @@ const UserCard: React.FC<PropsType> = ({ user, onClick }) => (
         <Card
             className="user-card__card"
             actions={[
-                <icons.SettingOutlined key="setting" />,
                 <Tooltip title="Create dialog" >
-                    <icons.MessageOutlined key="message" onClick={ onClick.bind(null, user._id) } />
+                 <div onClick={ onClick.bind(null, user._id) } >
+                     <span>Create dialog </span>
+                     <icons.MessageOutlined key="message"  />
+                 </div>
                 </Tooltip>
             ]}
         >
             <Card.Meta
                 avatar={ <Avatar src={ `${ SERVER_URL }/${ user.avatar }` } /> }
-                title={ `${ user.firstName } ${ user.secondName }` }
+                title={
+                    <div className="user-card__title" >
+                        { user.firstName } { user.secondName }
+                    </div>
+                }
                 description={ user.email }
             />
         </Card>
