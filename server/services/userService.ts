@@ -5,8 +5,6 @@ import { File } from "../interfaces/MulterInterface";
 import { createFolder, setFolderPath, removeFolder } from "../utils/common";
 
 export default class UserService {
-    constructor() {}
-
     static login = async (email: string, password: string): Promise<string> => {
         const user = await User.findByCredentials(email, password);
         return await user.generateAuthToken();

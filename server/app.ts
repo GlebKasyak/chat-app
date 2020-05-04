@@ -3,7 +3,6 @@ import path from "path";
 import cors from "cors";
 import { createServer } from "http";
 import socketIo from "socket.io"
-import cookieParser from "cookie-parser";
 import dotenvExtended from "dotenv-extended";
 
 import { MessageService, DialogService } from "./services";
@@ -22,7 +21,6 @@ connectToDb();
 const app: Application = express();
 app.use(json());
 app.use(cors());
-app.use(cookieParser());
 
 rootRouter(app);
 

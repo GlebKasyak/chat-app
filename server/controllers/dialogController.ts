@@ -4,8 +4,6 @@ import { ItemsDataType } from "../interfaces";
 import { DialogService } from "../services";
 
 class DialogController {
-    constructor() {}
-
     static createDialog: RequestHandler = async (req, res) => {
         try {
             const dialog = await DialogService.createDialog(req.body);

@@ -5,7 +5,7 @@ import User from "./userModel";
 import Message from "./messageModel"
 import { IDialogDocument } from "../interfaces/DialogInterface";
 
-const dialogSchema: Schema = new Schema({
+const dialogSchema = new Schema({
     author: { type: Types.ObjectId, ref: "User" },
     partner: { type: Types.ObjectId, ref: "User" },
     messages: [{ type: Types.ObjectId, ref: "Message" }],
@@ -39,7 +39,7 @@ dialogSchema.pre<IDialogDocument>("save", async function(next: NextFunction) {
     next();
 });
 
-dialogSchema.post("remove", async function(dialog: IDialogDocument): Promise<void> {
+dialogSchema.post("remove", async function(dialog: IDialogDocument) {
     await User.updateMany({}, { $pull: { dialogs: dialog._id } } );
     await Message.deleteMany({ dialog: dialog._id });
 });

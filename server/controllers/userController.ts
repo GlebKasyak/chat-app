@@ -5,15 +5,12 @@ import { ItemsDataType } from "../interfaces";
 import { IUserDocument } from "../interfaces/UserInterface";
 
 class UserController {
-    constructor() {}
-
     static login: RequestHandler = async (req, res) => {
         try {
             const { email, password } = req.body;
             const token = await UserService.login(email, password);
 
-            res.cookie("x_auth", token)
-                .json({ message: "Token is created", success: true, token });
+            res.json({ message: "Token is created", success: true, token });
         }  catch (err) {
             res.status(400).json({ message: "Error. Email or password incorrect", success: false, err });
         }
@@ -21,7 +18,7 @@ class UserController {
 
     static logout: RequestHandler = async(req, res) => {
         try {
-            res.clearCookie("x_auth").json({ message: "You are logout", success: true });
+            res.json({ message: "You are logout", success: true });
         } catch (err) {
             res.status(400).json({ message: "Error. Can you try again", err });
         }
@@ -48,7 +45,7 @@ class UserController {
 
     static getUsers: RequestHandler = async (req, res) => {
         try {
-            const users: IUserDocument[] = await UserService.getUsers(req.query as ItemsDataType);
+            const users: Array<IUserDocument> = await UserService.getUsers(req.query as ItemsDataType);
 
             res.json({ message: "All users", success: true, users });
         } catch (err) {

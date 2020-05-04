@@ -14,8 +14,6 @@ type SearchDataType = {
 }
 
 export default class UserService {
-    constructor() {}
-
     static createDialog = async (data: CreateDialogDataType): Promise<IDialogDocument | undefined> => {
         const existingDialog = await Dialog.findOne({ $or: [
             { author: data.author, partner: data.partner },
@@ -63,7 +61,8 @@ export default class UserService {
             .populate("partner") as Array<IDialogWithPartner>;
 
         const filteredDialogs = dialogs.filter((dialog) =>
-            dialog.partner.firstName.indexOf(data.value.toLocaleLowerCase()) !== -1);
+            dialog.partner.firstName.toLocaleLowerCase()
+                .indexOf(data.value.toLocaleLowerCase()) !== -1);
 
         if(!filteredDialogs.length) throw new Error("Dialog(s) not founded");
         return filteredDialogs;

@@ -3,7 +3,7 @@ import { Router } from "express";
 import { auth } from "../middleware";
 import DialogController from "../controllers/dialogController";
 
-const router: Router = Router();
+const router = Router();
 
 router.post("/", auth, DialogController.createDialog);
 router.get("/", auth, DialogController.getDialogsById);

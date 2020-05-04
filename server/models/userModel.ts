@@ -7,7 +7,7 @@ import Dialog from "./dialogModel";
 import Message from "./messageModel";
 import { IUserDocument, IUserModel } from "../interfaces/UserInterface";
 
-const userSchema: Schema = new Schema({
+const userSchema = new Schema({
     firstName: {
         type: String,
         required: true,
@@ -59,9 +59,7 @@ userSchema.statics.findByCredentials = async (email: string, password: string): 
     if(!user) throw new Error("Incorrect data during sign in system");
 
     const isMatch: boolean = await compare(password, user.password);
-    if(!isMatch) {
-        throw new Error("Password is incorrect, please try again");
-    }
+    if(!isMatch) throw new Error("Password is incorrect, please try again");
 
     return user;
 };

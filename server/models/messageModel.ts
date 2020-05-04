@@ -4,7 +4,7 @@ import { IMessageDocument } from "../interfaces/MessageInterface";
 import Dialog from "./dialogModel";
 import User from "./userModel";
 
-const messageSchema: Schema = new Schema({
+const messageSchema = new Schema({
     message: {
        type: String,
        trim: true,
@@ -21,7 +21,7 @@ const messageSchema: Schema = new Schema({
     timestamps: true
 });
 
-messageSchema.methods.updateDialog = async function(name: string, avatar: string): Promise<void> {
+messageSchema.methods.updateDialog = async function(name: string, avatar: string) {
     const message = this as IMessageDocument;
 
     const update = {

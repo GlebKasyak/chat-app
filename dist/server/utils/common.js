@@ -60,4 +60,5 @@ exports.removeFolder = function (path) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+console.log(path_1.resolve(__dirname, "../"))
 exports.setFolderPath = function (email, folder) { return "uploads/" + email + "/" + folder + "/"; };

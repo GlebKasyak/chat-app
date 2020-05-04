@@ -4,9 +4,7 @@ import request from "request-promise";
 
 const recaptcha: RequestHandler = async (req, res, next) => {
     try {
-        if(!req.body.captcha) {
-            return res.status(409).json({ message: "Please select captcha", success: false });
-        }
+        if(!req.body.captcha) throw new Error;
 
         try {
             const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${ config.RECAPTCHA_KEY }&response=${ req.body.captcha }`;
@@ -20,7 +18,7 @@ const recaptcha: RequestHandler = async (req, res, next) => {
         }
 
     } catch (err) {
-        res.status(409).json({ message: err.messsage, success: false });
+        res.status(409).json({ message: "Please select captcha", success: false });
     }
 };
 
