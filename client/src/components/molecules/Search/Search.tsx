@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Input, Button, Tooltip } from "antd";
 
-import { SetStateType, Handlers } from "../../../typescript/common";
+import { SetStateType, Handlers } from "../../../interfaces/common";
 import "./style.scss";
 
 type PropsType = {

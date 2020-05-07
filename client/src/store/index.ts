@@ -4,4 +4,5 @@ import thunk from "redux-thunk";
 
 import rootReducer from "./reducers";
 
-export default createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+export type StoreType = typeof store;

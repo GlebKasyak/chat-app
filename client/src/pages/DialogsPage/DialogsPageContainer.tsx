@@ -11,22 +11,22 @@ import {
     ThunkDispatchDialogsType,
     dialogActions
 } from "../../store/actions/dialog.action";
+import { UserSelectors, DialogSelectors } from "../../store/selectors";
 import { AppStateType } from "../../store/reducers";
-import { ResponseType, ScrollDataType } from "../../typescript/common";
-import { IDialog, IResponseDialogsData } from "../../typescript/dialog";
+import { ResponseType, ScrollDataType } from "../../interfaces/common";
+import { IDialog, IResponseDialogsData } from "../../interfaces/dialog";
 
 
 type MapStateToPropsType = {
     userId: string,
-    token: string,
     dialogs: Array<IDialog>,
-    isSearching: boolean
+    ifSearching: boolean
 }
 
 type MapDispatchToPropsType = {
     getDialogsById: (data: ScrollDataType) => Promise<IResponseDialogsData>
-    deleteDialogsById: (dialogId: string, token: string) => void,
-    searchDialogs: (value: string, token: string, userId: string) => Promise<ResponseType>,
+    deleteDialogsById: (dialogId: string) => void,
+    searchDialogs: (value: string, userId: string) => Promise<ResponseType>,
     clearDialogList: () => void
 }
 
@@ -38,9 +38,8 @@ const DialogsPageContainer: FC<PropsType> = (
         deleteDialogsById,
         searchDialogs,
         userId,
-        token,
         dialogs,
-        isSearching,
+        ifSearching,
         clearDialogList
     }) => {
 
@@ -48,13 +47,12 @@ const DialogsPageContainer: FC<PropsType> = (
 
     const [page, setPage] = useState(Math.ceil(dialogs.length / limit) + 1);
     const [isLoading, setIsLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
 
-    const data = { userId, token, limit, page };
+    const data = { userId, limit, page };
 
     const fetchData = useCallback(async () => {
         setIsLoading(true);
-        setHasMore(true);
 
         const response = await getDialogsById(data);
         response.dialogs!.length < limit && setHasMore(false);
@@ -63,14 +61,14 @@ const DialogsPageContainer: FC<PropsType> = (
     }, [getDialogsById, data]);
 
     useEffect(() => {
-        if(!!token && !!userId && page === 1 && !dialogs.length) {
+        if(!!userId && page === 1 && !dialogs.length) {
             setPage(2);
             fetchData();
         }
-    }, [token, userId, page, dialogs.length, fetchData]);
+    }, [userId, page, dialogs.length, fetchData]);
 
     const handleScroll = async () => {
-        if(page > 1 && !isSearching) {
+        if(page > 1 && !ifSearching) {
             const response = await getDialogsById(data);
 
             setPage(prevPage => prevPage + 1);
@@ -88,10 +86,10 @@ const DialogsPageContainer: FC<PropsType> = (
     const deleteDialogByIdHandler = async (dialogId: string) => {
         setIsLoading(true);
 
-        await deleteDialogsById(dialogId, token);
+        await deleteDialogsById(dialogId);
         clearDialogList();
 
-        await getDialogsById({ userId, token, limit, page: 1 });
+        await getDialogsById({ userId, limit, page: 1 });
 
         setPage(2);
         setIsLoading(false);
@@ -109,24 +107,24 @@ const DialogsPageContainer: FC<PropsType> = (
                 setNextPage={ handleScroll }
                 hasMore={ hasMore }
                 getAllDialogs={ getAllDialogs }
+                page={ page }
             />
             { !dialogs.length &&  <EmptyComponent description="Dialogs list is empty" /> }
         </>
     )
 }
 
-const mapStateToProps = ({ user, dialog }: AppStateType) => ({
-    userId: user.user._id,
-    token: user.token,
-    dialogs: dialog.dialogs,
-    isSearching: dialog.isSearching
+const mapStateToProps = (state: AppStateType) => ({
+    userId: UserSelectors.getUserId(state),
+    dialogs: DialogSelectors.getDialogs(state),
+    ifSearching: DialogSelectors.getIfSearching(state)
 })
 
 const mapDispatchToProps = (dispatch: ThunkDispatchDialogsType) => ({
     getDialogsById: (data: ScrollDataType) => dispatch(getDialogsById(data)),
-    deleteDialogsById: (dialogId: string, token: string) => dispatch(deleteDialogsById(dialogId, token)),
-    searchDialogs: (value: string, token: string, userId: string) =>
-        dispatch(searchDialogs(value, token, userId)),
+    deleteDialogsById: (dialogId: string) => dispatch(deleteDialogsById(dialogId)),
+    searchDialogs: (value: string, userId: string) =>
+        dispatch(searchDialogs(value, userId)),
     clearDialogList: () => dispatch(dialogActions.clearDialogListAC()),
 });
 

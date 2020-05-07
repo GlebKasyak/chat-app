@@ -12,7 +12,7 @@ export default class UserService {
 
     static register = async (email: string, password: string, body: IUserDocument ): Promise<IUserDocument> => {
         const user = await User.create(body);
-        if(!user) throw new Error("Error: can nit create user");
+        if(!user) throw new Error("Error: can not create user");
 
         await createFolder(`uploads/${ email }`);
         await createFolder(setFolderPath(email, "images"));

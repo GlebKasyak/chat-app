@@ -3,18 +3,18 @@ import { Divider, Col, Row, Typography, Button } from "antd";
 
 import { DescriptionItem, UploadButton } from "../../components";
 
-import { IUser } from "../../typescript/user";
+import { IUser } from "../../interfaces/user";
 import { timeFromNow } from "../../shared/helpres";
-import { SERVER_URL } from "../../shared/constants";
+import { ENV } from "../../assets/constants";
 import showConfirm from "../../shared/showConfirm";
 import "./style.scss";
 
 type PropsType = {
     user: IUser,
-    onClick: () => void
+    removeUser: () => void
 }
 
-const ProfilePage: FC<PropsType> = ({ user, onClick }) => (
+const ProfilePage: FC<PropsType> = ({ user, removeUser }) => (
     <div className="profile container">
         <Typography.Title level={4} >User Profile</Typography.Title>
         <p className="profile__section" >Personal</p>
@@ -28,7 +28,7 @@ const ProfilePage: FC<PropsType> = ({ user, onClick }) => (
                 <DescriptionItem title="Avatar" />
                 <div className="profile-avatar-wrapper" >
                     <img
-                        src={ user.avatar && `${ SERVER_URL }/${ user.avatar }` }
+                        src={ user.avatar && `${ ENV.SERVER_URL }/${ user.avatar }` }
                         alt={ user.firstName }
                         className="profile-avatar img"
                     />
@@ -42,9 +42,10 @@ const ProfilePage: FC<PropsType> = ({ user, onClick }) => (
 
         <DescriptionItem title="Email" content={ user.email } />
         <Button
-            onClick={ () => showConfirm(onClick) }
+            onClick={ () => showConfirm(removeUser) }
             type="danger"
             icon="delete"
+            className="w-100 btn"
         >
             Remove account
         </Button>

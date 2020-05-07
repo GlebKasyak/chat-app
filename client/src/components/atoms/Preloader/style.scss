@@ -1,25 +1,27 @@
-@import "../../../styles/variables";
+@import "../../../assets/styles/variables";
 
 
 .preloader {
-  height: 100vh;
+  align-items: center;
   flex-direction: column!important;
+  position: absolute!important;
   font-size: $font-size;
-
-  @extend %display-flex-center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   &--bottom-scroll-loader {
+    top: auto;
     height: auto;
   }
 
   &--top-scroll-loader {
     height: max-content;
-    top: 25px;
+    top: 0.625rem;
   }
 
   &--bottom-scroll-loader, &--top-scroll-loader {
-    position: absolute;
-    bottom: 2rem;
+    bottom: 10rem;
     left: 50%;
     transform: translateX(-50%);
   }

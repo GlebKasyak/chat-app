@@ -4,18 +4,19 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import { DialogItem, Preloader, Search } from "../../components";
 
-import { ResponseType } from "../../typescript/common";
-import { IDialog } from "../../typescript/dialog";
+import { ResponseType } from "../../interfaces/common";
+import { IDialog } from "../../interfaces/dialog";
 import "./style.scss";
 
 type PropsType = {
     dialogs:  Array<IDialog>,
     userId: string,
     onClick: (dialogId: string) => void,
-    searchDialogs: (value: string, token: string, userId: string) => Promise<ResponseType>,
+    searchDialogs: (value: string, userId: string) => Promise<ResponseType>,
     setNextPage: () => void,
     hasMore: boolean,
-    getAllDialogs: () => void
+    getAllDialogs: () => void,
+    page: number
 }
 
 const DialogsPage: FC<PropsType> = props => (
@@ -31,7 +32,7 @@ const DialogsPage: FC<PropsType> = props => (
                <InfiniteScroll
                    next={ props.setNextPage }
                    hasMore={ props.hasMore }
-                   loader={ <Preloader text="Loading..." modifier="bottom-scroll-loader" /> }
+                   loader={ props.page !== 2 && <Preloader text="Loading..." modifier="bottom-scroll-loader" /> }
                    dataLength={ props.dialogs.length }
                >
                    <List

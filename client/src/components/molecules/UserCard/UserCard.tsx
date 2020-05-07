@@ -2,8 +2,8 @@ import React from "react";
 import { Avatar, Card, Col, Tooltip } from "antd";
 import icons from "./../../../shared/icons";
 
-import { SERVER_URL } from "../../../shared/constants";
-import { IUser } from "../../../typescript/user";
+import { ENV } from "../../../assets/constants";
+import { IUser } from "../../../interfaces/user";
 import "./style.scss";
 
 type PropsType = {
@@ -25,7 +25,7 @@ const UserCard: React.FC<PropsType> = ({ user, onClick }) => (
             ]}
         >
             <Card.Meta
-                avatar={ <Avatar src={ `${ SERVER_URL }/${ user.avatar }` } /> }
+                avatar={ <Avatar src={ `${ ENV.SERVER_URL }/${ user.avatar }` } /> }
                 title={
                     <div className="user-card__title" >
                         { user.firstName } { user.secondName }

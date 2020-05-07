@@ -18,7 +18,7 @@ const auth: RequestHandler = async (req, res, next) => {
         const decoded = await verify(token, "secret") as DecodedDataType;
         const user = await User.findById(decoded.userId).select("-password -updatedAt");
 
-        if(!user) throw new Error("There is no such user");
+        if(!user) throw new Error("There is no such users");
 
         req.user = user;
         req.token = token;

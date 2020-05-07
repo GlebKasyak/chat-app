@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Form, Icon, Input } from "antd";
 import { ValidationRule, FormComponentProps } from "antd/lib/form/Form";
 
+import "./style.scss";
 
 interface IInputFormFieldProps extends FormComponentProps {
     labelField: string,
@@ -24,7 +25,7 @@ const InputFormField: FC<IInputFormFieldProps> = (
         iconType,
         onBlur
     }) => (
-    <Form.Item hasFeedback label={ labelField } >
+    <Form.Item hasFeedback label={ labelField } className="form-field" >
         { form.getFieldDecorator(nameField, {
             rules,
             initialValue

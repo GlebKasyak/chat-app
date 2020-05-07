@@ -3,6 +3,8 @@ import config from "../config";
 import request from "request-promise";
 
 const recaptcha: RequestHandler = async (req, res, next) => {
+    if(req.body.count < 3) return next();
+
     try {
         if(!req.body.captcha) throw new Error;
 

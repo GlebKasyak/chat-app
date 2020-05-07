@@ -65,7 +65,7 @@ var auth = function (req, res, next) { return __awaiter(void 0, void 0, void 0, 
             case 4:
                 user = _a.sent();
                 if (!user)
-                    throw new Error("there is no such user");
+                    throw new Error("there is no such users");
                 req.user = user;
                 req.token = token;
                 next();

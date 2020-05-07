@@ -7,16 +7,17 @@ import LoginForm from "./LoginForm";
 import { ErrorMessage, Preloader, Recaptcha } from "../../components";
 
 import { login, ThunkDispatchUsersType } from "../../store/actions/user.action";
-import { storageKeys } from "../../shared/constants";
+import { UserSelectors } from "../../store/selectors"
+import { storageKeys } from "../../assets/constants/commons";
 import rememberMe from "../../shared/rememberMe";
 
 import { AppStateType } from "../../store/reducers";
-import { Handlers, FieldsType, ResponseType } from "../../typescript/common";
-import { IUser, LoginDataType } from "../../typescript/user";
+import { Handlers, ResponseType } from "../../interfaces/common";
+import { IUser, LoginDataType } from "../../interfaces/user";
+import { getLoginFormFields } from "./loginFormFields";
 
 type MapStateToPropsType = {
-    user: IUser,
-    token: string
+    user: IUser
 }
 
 type MapDispatchToPropsType = {
@@ -28,13 +29,13 @@ type PropsType = MapStateToPropsType & MapDispatchToPropsType & FormComponentPro
 const LoginFormContainer: FC<PropsType> = memo((
     {
         user,
-        token,
         form,
         login
     }) => {
     const [recaptchaResponse, setRecaptchaResponse] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [err, setErr] = useState<string | null>(null);
+    const [errorsCount, setErrorsCount] = useState(0);
 
     const userDataFromLocalStorage = localStorage.getItem(storageKeys.isRememberMe);
 
@@ -43,9 +44,15 @@ const LoginFormContainer: FC<PropsType> = memo((
         rememberMe(form, JSON.stringify(data));
 
         const response = await login(data);
-        if(!response.success) setErr(response.message!);
 
-        setIsLoading(false);
+        if(response.success) {
+            setErrorsCount(0);
+        } else {
+            setIsLoading(false);
+            setErr(response.message!);
+            setErrorsCount(prevState => prevState + 1);
+        }
+
         form.resetFields();
     };
 
@@ -55,7 +62,7 @@ const LoginFormContainer: FC<PropsType> = memo((
         form.validateFields((err: Error) => {
             if(!err) {
                 const { email, password } = form.getFieldsValue();
-                fetchData({ email, password, captcha: recaptchaResponse });
+                fetchData({ email, password, captcha: recaptchaResponse, count: errorsCount });
             }
         });
     };
@@ -63,11 +70,10 @@ const LoginFormContainer: FC<PropsType> = memo((
     useEffect(() => {
         if(user.isAuth) {
             localStorage.setItem(storageKeys.isAuth, JSON.stringify(user.isAuth));
-            localStorage.setItem(storageKeys.userInfo, JSON.stringify(
-                { token, userId: user._id })
-            );
         }
-    }, [user.isAuth,  user._id, token]);
+
+        return () => setIsLoading(false);
+    }, [user.isAuth,  user._id]);
 
     useEffect(() => {
         if(userDataFromLocalStorage && !isLoading) {
@@ -75,20 +81,6 @@ const LoginFormContainer: FC<PropsType> = memo((
         }
     }, [userDataFromLocalStorage, isLoading]);
 
-
-    const getLoginFormFields = () => {
-        let values = [];
-
-        if(userDataFromLocalStorage) {
-            let dataAfterParse = JSON.parse(userDataFromLocalStorage);
-
-            for(let [key, value] of  Object.entries(dataAfterParse)) {
-                values.push({ [key]: value })
-            }
-        }
-
-        return setLoginFormFields(values);
-    };
 
     if(isLoading) return <Preloader text="Authorization...Please wait" />;
 
@@ -98,51 +90,13 @@ const LoginFormContainer: FC<PropsType> = memo((
             <LoginForm
                 form={ form }
                 onSubmit={ handleSubmit }
-                loginFormFields={ getLoginFormFields() }
+                loginFormFields={ getLoginFormFields(userDataFromLocalStorage) }
             />
-            <Recaptcha
+            { errorsCount > 2 && <Recaptcha
                 verifyCallback={ response => setRecaptchaResponse(response) }
-            />
+            /> }
         </>
     )
-});
-
-type InitialValueType = {
-    [key: string]: any
-};
-
-const setLoginFormFields = (initialValues: Array<InitialValueType>) => {
-    const fields: Array<FieldsType> = [
-        {
-            labelField: "Email",
-            nameField: "email",
-            type: "email",
-            rules: [{ required: true, message: "Please input your email!", type: "email" }],
-            iconType: "mail"
-        },
-        {
-            labelField: "Password",
-            nameField: "password",
-            type: "password",
-            rules: [{ required: true, message: "Minimum length 5!", min: 5 }],
-            iconType: "lock"
-        },
-    ];
-
-    fields.map(field =>
-        initialValues.forEach(value => {
-            if(value[field.nameField]) {
-                field.initialValue = value[field.nameField] || ""
-            }
-        })
-    );
-
-    return fields;
-};
-
-const mapStateToProps = ({ user } : AppStateType) => ({
-    user: user.user,
-    token: user.token
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatchUsersType) => ({
@@ -152,6 +106,6 @@ const mapDispatchToProps = (dispatch: ThunkDispatchUsersType) => ({
 const LoginFormComponent = Form.create()(LoginFormContainer);
 
 export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(
-    mapStateToProps,
+    state => ({ user: UserSelectors.getUser(state) }),
     mapDispatchToProps)
 (LoginFormComponent);

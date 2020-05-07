@@ -1,5 +1,7 @@
 
 .captcha {
-  display: flex;
-  justify-content: center;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 3rem;
 }

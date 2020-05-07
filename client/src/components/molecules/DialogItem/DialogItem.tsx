@@ -2,9 +2,10 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { List, Avatar, Button } from "antd";
 
-import { LastMessageType } from "../../../typescript/dialog";
+import { LastMessageType } from "../../../interfaces/dialog";
 import { getShortenString } from "../../../shared/helpres";
-import { SERVER_URL } from "../../../shared/constants";
+import icons from "../../../shared/icons";
+import { ENV } from "../../../assets/constants";
 import "./style.scss";
 
 type PropsType = {
@@ -24,14 +25,14 @@ const DialogItem: FC<PropsType> = (
         avatar,
     }) => (
     <List.Item className="dialog-item" >
-        <Link to={ `/chat?id=${ dialogId }` } className="dialog-item__link" >
+        <Link to={ `/chat?id=${ dialogId }&partner=${ name }` } className="dialog-item__link" >
             <List.Item.Meta
-                avatar={ <Avatar src={ `${ SERVER_URL }/${ avatar }` } className="dialog-item__avatar img" />  }
-                title={ <p>{ name }</p> }
+                avatar={ <Avatar src={ `${ ENV.SERVER_URL }/${ avatar }` } className="dialog-item__avatar img" />  }
+                title={ <p className="dialog-item__partner-name">{ name }</p> }
                 description={
                     <div className="last-message">
                         <img
-                            src={ `${ SERVER_URL }/${ lastMessage.avatar }` }
+                            src={ `${ ENV.SERVER_URL }/${ lastMessage.avatar }` }
                             alt={ lastMessage.name }
                             className="last-message__avatar img"
                         />
@@ -47,6 +48,7 @@ const DialogItem: FC<PropsType> = (
             className="dialog-item__btn"
         >
             Delete dialog
+            <icons.DeleteOutlined />
         </Button>
     </List.Item>
 )

@@ -1,44 +1,22 @@
-import React, { FC } from "react";
 import { connect } from "react-redux";
 
 import ProfilePage from "./ProfilePage";
 
+import { UserSelectors } from "../../store/selectors";
 import { AppStateType } from "../../store/reducers";
-import { IUser } from "../../typescript/user";
-import { storageKeys } from "../../shared/constants";
+import { IUser } from "../../interfaces/user";
 import { removeUser } from "../../store/actions/user.action";
 
 
 type MapStateToProps = {
-  user: IUser,
-  token: string
+  user: IUser
 }
 
 type MapDispatchToProps = {
-  removeUser: (token: string) => void
+  removeUser: () => void
 }
 
-type PropsType = MapStateToProps & MapDispatchToProps;
-
-const ProfilePageContainer: FC<PropsType> = ({ user, token, removeUser }) => {
-
-  const handleClick = () => {
-    removeUser(token);
-
-    localStorage.removeItem(storageKeys.isAuth);
-    localStorage.removeItem(storageKeys.userInfo);
-    localStorage.removeItem(storageKeys.isRememberMe);
-  };
-
-  return <ProfilePage user={ user } onClick={ handleClick } />
-};
-
-const mapStateToProps = ({ user }: AppStateType) => ({
-  user: user.user,
-  token: user.token
-});
-
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppStateType>(
-    mapStateToProps,
+    state => ({  user: UserSelectors.getUser(state) }),
     { removeUser }
-)(ProfilePageContainer);
+)(ProfilePage);

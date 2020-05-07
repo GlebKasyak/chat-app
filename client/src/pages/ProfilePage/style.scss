@@ -1,4 +1,4 @@
-@import "./../../styles/variables";
+@import "../../assets/styles/variables";
 
 .profile {
   max-width: 350px!important;
@@ -21,6 +21,21 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+
+  @media (max-width: 767px) {
+    &__section {
+      font-size: $font-size!important;
+      margin-bottom: 0.5rem!important;
+    }
+
+    &__avatar {
+
+      .profile-avatar-wrapper {
+        width: 100px;
+        height: 100px;
+      }
     }
   }
 }

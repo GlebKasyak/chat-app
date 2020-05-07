@@ -1,15 +1,11 @@
-@import "../../../styles/variables";
+@import "../../../assets/styles/variables";
 
 .navbar-wrapper {
-  position: fixed;
   width: 100%;
   top: 0;
-  z-index: 1;
-  background-color: $white;
 
   .navbar {
     font-size: $font-size;
-    margin-bottom: $default-margin + 1;
     display: flex;
   }
 

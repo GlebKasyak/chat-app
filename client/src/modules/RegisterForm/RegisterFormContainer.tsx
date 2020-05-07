@@ -8,10 +8,10 @@ import { FormComponentProps } from "antd/lib/form";
 import { ErrorMessage, Preloader } from "../../components";
 import RegisterForm from "./RegisterForm";
 
-import { UserAPI } from "../../core/userAPI";
-import { AppStateType } from "../../store/reducers";
-import { Handlers, FieldsType } from "../../typescript/common";
-import { RegisterDataType } from "../../typescript/user";
+import { UserAPI } from "../../apiServices/userAPI";
+import { Handlers } from "../../interfaces/common";
+import { RegisterDataType } from "../../interfaces/user";
+import { getRegisterFieldsWithValidators } from "./registerFormFields";
 
 const RegisterFormContainer: FC<FormComponentProps> = memo(({ form }) => {
   const history: History = useHistory();
@@ -55,26 +55,6 @@ const RegisterFormContainer: FC<FormComponentProps> = memo(({ form }) => {
     });
   };
 
-  const compareToFirstPassword = (rule: any, value: any, callback: any) => {
-    if (value && value !== form.getFieldValue("password")) {
-      callback('Two passwords that you enter is inconsistent!');
-    } else {
-      callback();
-    }
-  };
-
-  const validateToNextPassword = (rule: any, value: any, callback: any) => {
-    if (value) {
-      form.validateFields(["confirm"], { force: true });
-    }
-    callback();
-  };
-
-  let registerFormFields = setRegisterFormField(
-      [
-        { "password": validateToNextPassword },
-        { "confirm": compareToFirstPassword }
-      ]);
 
   if(isLoading) return <Preloader text="Registration...Please wait" />;
 
@@ -84,68 +64,13 @@ const RegisterFormContainer: FC<FormComponentProps> = memo(({ form }) => {
         <RegisterForm
             form={ form }
             onSubmit={ handleSubmit }
-            registerFormFields={ registerFormFields }
+            registerFormFields={ getRegisterFieldsWithValidators(form) }
         />
       </>
   )
 });
 
-type ValidatorsType = {
-  [v: string]: (rule: any, value: any, callback: any) => any
-}
 
-const setRegisterFormField = (validators: Array<ValidatorsType>) => {
-  const fields: Array<FieldsType> = [
-    {
-      labelField: "First Name",
-      nameField: "firstName",
-      rules: [{ required: true, message: "Minimum length 4! Maximum length 30!", min: 4, max: 30 }],
-      iconType: "user"
-    },
-    {
-      labelField: "Second Name",
-      nameField: "secondName",
-      rules: [{ required: true, message: "Minimum length 5! Maximum length 30!", min: 5, max: 30 }],
-      iconType: "user"
-    },
-    {
-      labelField: "Email",
-      nameField: "email",
-      type: "email",
-      rules: [{ required: true, message: "Please input your email!", type: "email" }],
-      iconType: "mail"
-    },
-    {
-      labelField: "Password",
-      nameField: "password",
-      type: "password",
-      rules: [
-        { required: true, message: "Minimum length 5!", min: 5 }],
-      iconType: "lock"
-    },
-    {
-      labelField: "Compare Password",
-      nameField: "confirm",
-      type: "password",
-      rules: [
-        { required: true, message: "Please confirm your password!" }],
-      iconType: "lock",
-    },
-  ];
-
-  fields.map(field =>
-    validators.forEach((validator: ValidatorsType) =>
-        validator[field.nameField] && field.rules.push({
-          validator: validator[field.nameField]
-        })
-    )
-  );
-
-  return fields;
-};
-
-const RegisterFormComponent = Form.create()(RegisterFormContainer);
-
-export default connect<{}, null, {}, AppStateType>(
-    null, null)
-(RegisterFormComponent);
+export default connect()(
+    Form.create()(RegisterFormContainer)
+);

@@ -2,7 +2,8 @@ import { Reducer } from "redux";
 
 import * as userTypes from "../types/userTypes";
 import { userActions } from "../actions/user.action";
-import { UserState } from "../../typescript/user";
+import { UserState } from "../../interfaces/user";
+import { exhaustiveCheck } from "../../shared/helpres";
 import { InferActionsTypes } from "./index";
 
 const initialState: UserState = {
@@ -15,7 +16,6 @@ const initialState: UserState = {
         createdAt: "",
         isAuth: false
     },
-    token: "",
     users: [],
 };
 
@@ -32,8 +32,6 @@ const reducer: Reducer<UserState, ActionsTypes> = (state = initialState, action:
                     isAuth: true
                 }
             };
-        case userTypes.SET_USER_TOKEN:
-            return { ...state, token: action.payload };
         case userTypes.LOGOUT_USER:
             return {
                 ...state,
@@ -62,7 +60,10 @@ const reducer: Reducer<UserState, ActionsTypes> = (state = initialState, action:
                 ...state,
                 users: action.payload
             };
+        case userTypes.CLEAR_USERS_LIST:
+            return { ...state, users: [] };
         default:
+            exhaustiveCheck(action);
             return state;
     }
 };

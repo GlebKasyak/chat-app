@@ -1,0 +1,16 @@
+@import "../../../assets/styles/variables";
+
+.form-field {
+
+  @media (max-width: 767px) {
+    margin-bottom: 0.75rem!important;
+
+    .ant-form-item-label {
+      padding-bottom: 0!important;
+
+      label{
+        font-size: 0.75rem!important;
+      }
+    }
+  }
+}

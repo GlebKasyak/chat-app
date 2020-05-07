@@ -1,9 +1,10 @@
-@import "./../../../../styles/variables";
+@import "../../../../assets/styles/variables";
 
 .message {
   $self: &;
 
   display: flex;
+  position: relative;
   padding: 0 5%;
   margin-top: 0.2rem;
   justify-content: flex-start;
@@ -11,9 +12,15 @@
   max-width: 70%;
   margin-left: auto;
 
+  &__time {
+    position: absolute;
+    font-size: 0.625rem;
+    bottom: 1.25rem;
+    right: 0.675rem;
+  }
 
-  .sent-text {
-    padding-left: $default-padding;
+  &__author-name {
+    padding-left: 1.5rem;
     color: #828282;
     display: flex;
     align-items: center;
@@ -22,7 +29,7 @@
     margin-bottom: 0;
   }
 
-  &-text {
+  &__text {
     width: 100%;
     letter-spacing: 0;
     float: left;
@@ -31,7 +38,7 @@
     margin-bottom: 0;
   }
 
-  &-box {
+  &__box {
     border-radius: 0.75rem 0.75rem 0 0.75rem;
     box-shadow: 0 0.3rem 0.3rem rgba(54, 116, 255, 0.196733);
     background: $white;
@@ -46,14 +53,18 @@
     margin-right: auto;
     margin-left: 0;
 
-    #{ $self }-box {
+    #{ $self }__time {
+      right: auto;
+    }
+
+    #{ $self }__box {
       border-radius: 0.75rem 0.75rem 0.75rem 0;
       background: $blue;
       color: $white;
     }
 
-    .sent-text {
-      padding-right: $default-padding;
+    #{ $self }__author-name {
+      padding-right: 1.5rem;
     }
   }
 }

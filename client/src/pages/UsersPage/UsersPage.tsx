@@ -5,8 +5,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { UserCard, Preloader, EmptyComponent, Search } from "../../components";
 import "./style.scss";
 
-import { ResponseType } from "../../typescript/common";
-import { IUser } from "../../typescript/user";
+import { ResponseType } from "../../interfaces/common";
+import { IUser } from "../../interfaces/user";
 
 
 type PropsType = {
@@ -14,10 +14,11 @@ type PropsType = {
     onClick: (partnerId: string) => Promise<void>,
     setNextPage: () => void,
     hasMore: boolean,
-    searchUserByEmail: (value: string, token: string, userId: string) => Promise<ResponseType>,
+    searchUserByEmail: (value: string, userId: string) => Promise<ResponseType>,
+    page: number,
 };
 
-const UsersPage: FC<PropsType> = ({ users, ...props }) => (
+const UsersPage: FC<PropsType> = ({ users, ...props }) =>  (
     <div className="container">
         <Row className="user-page-search" >
             <Col xs={18} md={14} >
@@ -33,20 +34,20 @@ const UsersPage: FC<PropsType> = ({ users, ...props }) => (
                 <InfiniteScroll
                     next={ props.setNextPage }
                     hasMore={ props.hasMore }
-                    loader={ <Preloader text="Loading..." modifier="bottom-scroll-loader" /> }
+                    loader={ props.page !== 2 && <Preloader text="Loading..." modifier="bottom-scroll-loader" /> }
                     dataLength={ users.length }
                 >
-                   <div className="user-page__user-list">
-                       { users.map((user: IUser) =>
-                           <UserCard user={ user } key={ user._id } onClick={ props.onClick } /> )
-                       }
-                   </div>
+                    <div className="user-page__user-list">
+                        { users.map((user: IUser) =>
+                            <UserCard user={ user } key={ user._id } onClick={ props.onClick } /> )
+                        }
+                    </div>
                 </InfiniteScroll>
             </Row>
         ) : (
             <EmptyComponent description="User list is empty" />)
         }
     </div>
-);
+)
 
 export default UsersPage;

@@ -37,7 +37,7 @@ class UserController {
 
     static auth: RequestHandler = async (req, res) => {
         try {
-            res.json({ message: "You are authenticated", user: req.user, token: req.token, success: true });
+            res.json({ message: "You are authenticated", user: req.user, success: true });
         } catch (err) {
             res.status(400).json({ message: "Error. Can you try again", err });
         }

@@ -2,12 +2,13 @@ import { Reducer } from "redux";
 
 import * as dialogTypes from "../types/dialogTypes";
 import { dialogActions } from "../actions/dialog.action";
-import { DialogState } from "../../typescript/dialog";
+import { DialogState } from "../../interfaces/dialog";
+import { exhaustiveCheck } from "../../shared/helpres";
 import { InferActionsTypes } from "./index";
 
 const initialState: DialogState = {
     dialogs: [],
-    isSearching: false
+    ifSearching: false
 };
 
 type ActionsTypes = InferActionsTypes<typeof dialogActions>;
@@ -18,7 +19,7 @@ const reducer: Reducer<DialogState, ActionsTypes> = (state = initialState, actio
             return {
                 ...state,
                 dialogs: [...state.dialogs, ...action.payload],
-                isSearching: false
+                ifSearching: false
             };
         case dialogTypes.REMOVE_DIALOGS_BY_ID:
             return {
@@ -31,9 +32,10 @@ const reducer: Reducer<DialogState, ActionsTypes> = (state = initialState, actio
             return {
                 ...state,
                 dialogs: [...state.dialogs, ...action.payload],
-                isSearching: true
+                ifSearching: true
             };
         default:
+            exhaustiveCheck(action);
             return state;
     }
 };

@@ -5,24 +5,25 @@ import { connect } from "react-redux";
 import { Preloader } from "../../components";
 import UsersPage from "./UsersPage";
 
-import { DialogAPI } from "../../core/dialogAPI";
+import { DialogAPI } from "../../apiServices/dialogAPI";
 import { AppStateType } from "../../store/reducers";
-import { IUser } from "../../typescript/user";
-import { ResponseType, ScrollDataType } from "../../typescript/common";
+import { IUser } from "../../interfaces/user";
+import { ResponseType, ScrollDataType } from "../../interfaces/common";
+import { UserSelectors } from "../../store/selectors";
 import { dialogActions, ThunkDispatchDialogsType } from "../../store/actions/dialog.action";
-import { getUsers, searchUserByEmail, ThunkDispatchUsersType } from "../../store/actions/user.action";
+import { getUsers, searchUserByEmail, ThunkDispatchUsersType, userActions } from "../../store/actions/user.action";
 
 
 type MapStateToPropsType = {
     userId: string,
-    token: string,
     users: Array<IUser>,
 }
 
 type MapDispatchToPropsType = {
     getUsers: (data: ScrollDataType) => Promise<Array<IUser>>,
-    searchUserByEmail: (value: string, token: string, userId: string) => Promise<ResponseType>,
+    searchUserByEmail: (value: string, userId: string) => Promise<ResponseType>,
     clearDialogList: () => void,
+    clearUsersListAC: () => void
 }
 
 type PropsType = MapStateToPropsType & MapDispatchToPropsType;
@@ -32,19 +33,19 @@ const UsersPageContainer: FC<PropsType> = (
         getUsers,
         searchUserByEmail,
         userId,
-        token,
         users,
-        clearDialogList
+        clearDialogList,
+        clearUsersListAC
     }) => {
 
-    const limit = 9;
+    const limit = 6;
     const history = useHistory();
 
     const [page, setPage] = useState(Math.ceil(users.length / limit) + 1);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
-    const data = { userId, token, limit, page };
+    const data = { userId, limit, page };
 
     const fetchData = useCallback( async () => {
         setIsLoading(true);
@@ -65,18 +66,22 @@ const UsersPageContainer: FC<PropsType> = (
     };
 
     useEffect(() => {
-        if(!!token && !!userId && page === 1 && !users.length) {
+        if(!!userId && page === 1 && !users.length) {
             setPage(2);
             fetchData();
         }
 
-    }, [fetchData, token, userId, users.length, page]);
+    }, [fetchData, userId, users.length, page]);
+
+    useEffect(() => {
+        return () => clearUsersListAC();
+    }, [clearUsersListAC])
 
     const createDialogHandler = async (partnerId: string) => {
         setIsLoading(true);
         const data = { author: userId, partner: partnerId };
 
-        await DialogAPI.createDialog(data, token);
+        await DialogAPI.createDialog(data);
         clearDialogList();
 
         setIsLoading(false);
@@ -91,22 +96,23 @@ const UsersPageContainer: FC<PropsType> = (
         setNextPage={ handleScroll }
         hasMore={ hasMore }
         searchUserByEmail={ searchUserByEmail }
+        page={ page }
     />
 };
 
 
-const mapStateToProps = ({ user }: AppStateType) => ({
-    users: user.users,
-    userId: user.user._id,
-    token: user.token
+const mapStateToProps = (state: AppStateType) => ({
+    users: UserSelectors.getUsers(state),
+    userId: UserSelectors.getUserId(state)
 });
 
 type DispatchType = ThunkDispatchUsersType & ThunkDispatchDialogsType;
 
 const mapDispatchToProps = (dispatch: DispatchType) => ({
     getUsers: (data: ScrollDataType) => dispatch(getUsers(data)),
-    searchUserByEmail: (value: string, token: string, userId: string) =>
-        dispatch(searchUserByEmail(value, token, userId)),
+    searchUserByEmail: (value: string, userId: string) =>
+        dispatch(searchUserByEmail(value, userId)),
+    clearUsersListAC: () => dispatch(userActions.clearUsersListAC()),
     clearDialogList: () => dispatch(dialogActions.clearDialogListAC()),
 });
 

@@ -2,37 +2,27 @@ import React, { ChangeEvent, FC } from "react";
 import { connect } from "react-redux";
 
 import { uploadAvatar } from "../../../store/actions/user.action";
-import { AppStateType } from "../../../store/reducers";
-
-import { storageKeys } from "../../../shared/constants";
+import { ThunkDispatchUsersType } from "../../../store/actions/user.action";
 import icons from "../../../shared/icons";
 import "./style.scss";
 
 
-type MapDispatchToPropsType = {
-    uploadAvatar: (type: string, file: File, token: string) => void
+type Props = {
+    text: string,
+    dispatch: ThunkDispatchUsersType
 };
 
-type OwnPropsType = { text: string };
-
-type PropsType = MapDispatchToPropsType & OwnPropsType;
-
-const UploadButton: FC<PropsType> = ({ text, uploadAvatar }) => {
-    const token = JSON.parse(localStorage.getItem(storageKeys.userInfo) || "{}").token;
-
+const UploadButton: FC<Props> = ({ text, dispatch }) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        uploadAvatar("avatar", e.target.files![0], token);
+        dispatch(uploadAvatar("avatar", e.target.files![0]));
     };
 
     return (
-        <div className="upload-file">
+        <div className="upload-file btn">
             <icons.UploadOutlined className="upload-file__icon" />{ text }
             <input onChange={ handleChange } type="file" className="upload-file__file-btn" />
         </div>
     )
 };
 
-export default connect<{}, MapDispatchToPropsType, OwnPropsType, AppStateType>(
-    null,
-    { uploadAvatar })
-(UploadButton);
+export default connect()(UploadButton);

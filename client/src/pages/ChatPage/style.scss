@@ -1,35 +1,42 @@
-@import "../../styles/variables";
+@import "../../assets/styles/variables";
 
 .chat-page {
   $self: &;
+  margin: auto;
 
-  max-width: 650px!important;
+  max-width: 700px!important;
   width: 100%;
   position: relative;
 
   &__window {
     @extend %display-flex-center;
-
-    margin-bottom: $default-margin + 3;
+    height: calc(100vh - 171px)!important;
 
     .infinite-container {
+      margin-top: 60px;
       position: relative;
-      height: 400px;
+      max-height: 70%;
+      height: 100%;
       width: 100%;
-      overflow: auto;
+      overflow-y: auto;
     }
   }
 
   &__form {
-    @extend %display-flex-center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: $white;
+    height: 70px;
 
     position: absolute;
-    bottom: 0;
+    bottom: -1rem;
     left: 0;
     right: 0;
 
 
     #{ $self }__smile-btn {
+      font-size: 1.375rem;
       position: absolute;
       left: -40px;
       bottom: 30px;
@@ -44,8 +51,8 @@
   }
 
   @media(max-width: 767px) {
+
     &__form {
-      bottom: -1rem;
       flex-direction: column;
 
       #{ $self }__emoji-picker {
@@ -56,10 +63,17 @@
       .btn {
         margin-top: 0.675rem;
       }
+
+      #{ $self }__smile-btn {
+        left: -50px;
+        bottom: 6px;
+      }
+
     }
   }
 
   @media(max-width: 575px) {
+
       &__form {
 
         #{ $self }__emoji-picker {

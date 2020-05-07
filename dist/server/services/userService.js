@@ -61,7 +61,7 @@ var UserService = /** @class */ (function () {
                 case 1:
                     user = _a.sent();
                     if (!user)
-                        throw new Error("Error: can nit create user");
+                        throw new Error("Error: can nit create users");
                     return [4 /*yield*/, common_1.createFolder("uploads/" + email)];
                 case 2:
                     _a.sent();

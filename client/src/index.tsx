@@ -1,14 +1,21 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import { Router } from "react-router-dom";
+
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
 
 import App from "./App";
-import store from "./store";
+
+import apiServices from "./apiServices";
+import { store } from "./store";
+
+const history = createBrowserHistory();
+apiServices(store, history);
 
 ReactDOM.render(
     <Provider store={ store }>
-        <Router>
+        <Router history={ history } >
             <App/>
         </Router>
     </Provider>,

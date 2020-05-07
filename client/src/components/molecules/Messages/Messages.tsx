@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 import Message from "./Message/Message";
 
-import { IMessage } from "../../../typescript/dialog";
+import { IMessage } from "../../../interfaces/dialog";
 
 type PropsType = {
     messages: Array<IMessage>,

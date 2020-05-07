@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Dialog } from "../models";
 import { ItemsDataType } from "../interfaces";
 import { IDialogDocument, IDialogWithPartner, MessagesPortionType } from "../interfaces/DialogInterface";
@@ -56,16 +57,38 @@ export default class UserService {
     };
 
     static searchDialogs = async (data: SearchDataType): Promise<Array<IDialogWithPartner>> => {
-        const dialogs = await Dialog.find(
-            { $or: [{ author: data.userId }, { partner: data.userId }] })
-            .populate("partner") as Array<IDialogWithPartner>;
-
-        const filteredDialogs = dialogs.filter((dialog) =>
-            dialog.partner.firstName.toLocaleLowerCase()
-                .indexOf(data.value.toLocaleLowerCase()) !== -1);
-
-        if(!filteredDialogs.length) throw new Error("Dialog(s) not founded");
-        return filteredDialogs;
+        return await Dialog.aggregate([
+            { $match: {
+                $or: [
+                        { author: new Types.ObjectId(data.userId) },
+                        { partner: new Types.ObjectId(data.userId) }
+                    ]
+            }},
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "partner",
+                    foreignField: "_id",
+                    as: "partner",
+                }
+            },
+            { $unwind: "$partner" },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "author",
+                    foreignField: "_id",
+                    as: "author",
+                }
+            },
+            { $unwind: "$author" },
+            { $match: { $or:
+                        [
+                            { "partner.firstName": { $regex: data.value, $options: "i" } },
+                            { "author.firstName": { $regex: data.value, $options: "i" } }
+                        ]
+            } }
+        ]) as Array<IDialogWithPartner>;
     }
 }
 

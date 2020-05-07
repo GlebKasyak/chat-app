@@ -2,25 +2,31 @@ import React, { FC, useState } from "react";
 import { connect } from "react-redux";
 
 import { AppStateType } from "../../../store/reducers";
-import { Handlers, ResponseType } from "../../../typescript/common";
+import { UserSelectors } from "../../../store/selectors";
+import { Handlers, ResponseType } from "../../../interfaces/common";
 
 import Search from "./Search";
 import { ErrorMessage } from "./../../index";
 
 type MapStateToProps = {
-    token: string,
     userId: string
 }
 
 type OwnProps = {
-    callback: (value: string, token: string, userId: string) => Promise<ResponseType>,
+    callback: (value: string, userId: string) => Promise<ResponseType>,
     tooltip: string,
-    placeholder: string
+    placeholder: string,
 }
 
 type PropsType = MapStateToProps & OwnProps;
 
-const SearchContainer: FC<PropsType> = ({ token, userId, callback, tooltip, placeholder }) => {
+const SearchContainer: FC<PropsType> = (
+    {
+        userId,
+        callback,
+        tooltip,
+        placeholder,
+    }) => {
     const [value, setValue] = useState("");
     const [prevValue, setPrevValue] = useState("");
     const [err, setErr] = useState<string | null>(null);
@@ -31,7 +37,7 @@ const SearchContainer: FC<PropsType> = ({ token, userId, callback, tooltip, plac
         setErr(null);
         setPrevValue(value);
 
-        const response = await callback(value.trim(), token, userId);
+        const response = await callback(value.trim(), userId);
         if(!response.success) setErr(response.message!);
     }
 
@@ -50,9 +56,6 @@ const SearchContainer: FC<PropsType> = ({ token, userId, callback, tooltip, plac
     )
 }
 
-const mapStateToProps = ({ user }: AppStateType) => ({
-    token: user.token,
-    userId: user.user._id
-});
-
-export default connect<MapStateToProps, null, OwnProps, AppStateType>(mapStateToProps)(SearchContainer);
+export default connect<MapStateToProps, {}, OwnProps, AppStateType>(
+    state => ({ userId: UserSelectors.getUserId(state) })
+)(SearchContainer);
