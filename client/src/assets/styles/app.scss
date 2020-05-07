@@ -1,0 +1,25 @@
+@import "../../../node_modules/antd/dist/antd.css";
+@import "../../../node_modules/emoji-mart/css/emoji-mart.css";
+
+@import "variables";
+@import "reset";
+@import "classes";
+
+
+.app {
+
+  &--not-active {
+
+    .form-container {
+      height: calc(100vh - 46px);
+
+      .form {
+        margin-right: auto;
+        margin-bottom: auto;
+        margin-top: auto;
+      }
+    }
+  }
+}
+
+

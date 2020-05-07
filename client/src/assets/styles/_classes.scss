@@ -1,0 +1,63 @@
+@import "./variables";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  height: calc(100% - 106px);
+  margin: auto;
+  padding: 30px $default-padding;
+}
+
+.center {
+  text-align: center;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.right {
+  text-align: right;
+  margin-left: auto;
+}
+
+.link {
+  font-weight: 700;
+}
+
+.link:hover {
+  color: $black;
+}
+
+.img {
+  border-radius: 100%!important;
+}
+
+.ml-1 {
+  margin-left: $default-margin;
+}
+
+.mt-1 {
+  margin-top: $default-margin;
+}
+
+.mt-1 {
+  margin-bottom: $default-margin;
+}
+
+.pl-1 {
+  padding-left: $default-padding;
+}
+
+.pr-1 {
+  padding-right: $default-padding;
+}
+
+.btn {
+  @media (max-width: 767px) {
+    font-size: 0.75rem!important;
+  }
+}
+
