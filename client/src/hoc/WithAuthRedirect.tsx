@@ -1,38 +1,21 @@
 import React, { useEffect, ComponentType } from "react";
-import { History } from "history";
-import { useHistory } from "react-router-dom";
-import { connect } from "react-redux";
 
-import { storageKeys } from "../shared/constants";
-import { AppStateType } from "../store/reducers";
+import { storageKeys } from "../assets/constants/commons";
 
-type MapStateToPropsType = {
-    isAuth: boolean
-}
-
-const WithAuthRedirect = <P extends object>(Component: ComponentType<P>) => {
-    type HocProps = MapStateToPropsType & P;
-
-    const RedirectComponent: React.FC<HocProps | any> = props => {
-
-        const history: History = useHistory();
+const WithAuthRedirect = <P extends any>(Component: ComponentType<P>) => {
+    const RedirectComponent: React.FC<P> = props => {
 
         useEffect(() => {
             let isAuth = localStorage.getItem(storageKeys.isAuth);
 
-            if((isAuth && JSON.parse(isAuth)) || props.isAuth) {
-                history.push("/");
-            }
-        }, [history, props.isAuth]);
+            if(isAuth && JSON.parse(isAuth)) props.history.push("/");
+        }, [props.history]);
 
         return <Component { ...props } />
     };
 
     RedirectComponent.displayName = `WithAuthRedirect`;
-    return connect<MapStateToPropsType, null, {}, AppStateType>(
-        ({ user }: AppStateType): MapStateToPropsType => ({ isAuth: user.user.isAuth! }),
-        null)
-    (RedirectComponent);
+    return RedirectComponent;
 };
 
 export default WithAuthRedirect;

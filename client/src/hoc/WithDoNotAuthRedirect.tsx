@@ -1,40 +1,26 @@
 import React, { useEffect, ComponentType } from "react";
-import { History } from "history";
-import { useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import { RouteComponentProps  } from "react-router-dom";
 
-import { storageKeys } from "../shared/constants";
-import { AppStateType } from "../store/reducers";
+import { storageKeys } from "../assets/constants/commons";
 
-type MapStateToPropsType = {
-    isAuth: boolean
-}
-
-const WithDoNotAuthRedirect = <P extends any>(Component: ComponentType<P>) => {
-    type HocProps = MapStateToPropsType & P;
-
-    const RedirectComponent: React.FC<HocProps | any> = props => {
-        const history: History = useHistory();
-
+const WithDoNotAuthRedirect = <P extends RouteComponentProps>(Component: ComponentType<P>) => {
+     const RedirectComponent: React.FC<P> = props => {
         useEffect(() => {
             let isAuth = localStorage.getItem(storageKeys.isAuth);
 
             if(!isAuth || !JSON.parse(isAuth)) {
-                if(history.location.pathname !== "/register") {
-                    history.push("/login")
+                if(props.history.location.pathname !== "/register") {
+                    props.history.push("/login");
                 }
             }
 
-        }, [history, props.isAuth]);
+        }, [props.history]);
 
         return <Component { ...props } />
     };
 
     RedirectComponent.displayName = "WithDoNotAuthRedirect";
-    return connect<MapStateToPropsType, null, {}, AppStateType>(
-        ({ user }: AppStateType): MapStateToPropsType => ({ isAuth: user.user.isAuth! }),
-    null)
-    (RedirectComponent);
+    return RedirectComponent;
 };
 
 export default WithDoNotAuthRedirect;
