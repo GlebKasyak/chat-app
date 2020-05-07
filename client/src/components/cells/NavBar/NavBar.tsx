@@ -1,27 +1,21 @@
 import React, { FC } from "react";
-import { History } from "history";
 import { useHistory, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { Menu, Button } from "antd";
 
-import { logout } from "../../../store/actions/user.action";
-import { storageKeys } from "../../../shared/constants";
-import { AppStateType } from "../../../store/reducers";
+import { urls } from "../../../assets/constants";
+import { storageKeys } from "../../../assets/constants/commons";
+import { logout, ThunkDispatchUsersType } from "../../../store/actions/user.action";
 import icons from "../../../shared/icons";
 import "./style.scss";
 
-type MapStateToPropsType = {
-    token: string
+
+type Props = {
+    dispatch: ThunkDispatchUsersType
 }
 
-type MapDispatchToPropsType = {
-    logout: (token: string) => void
-}
-
-type NavBarPropsType = MapStateToPropsType & MapDispatchToPropsType;
-
-const NavBar: FC<NavBarPropsType> = ({ logout, token }) => {
-    const history: History = useHistory();
+const NavBar: FC<Props> = ({ dispatch }) => {
+    const history = useHistory();
     const { pathname } = history.location;
 
     const authData = localStorage.getItem(storageKeys.isAuth);
@@ -36,40 +30,36 @@ const NavBar: FC<NavBarPropsType> = ({ logout, token }) => {
                     mode="horizontal"
                     theme="dark"
                 >
-                    <Menu.Item key="/" className="navbar__item" >
-                        <NavLink exact to="/" >
+                    <Menu.Item key={ urls.home } className="navbar__item" >
+                        <NavLink exact to={ urls.home } >
                             <icons.HomeOutlined />
                             Home
                         </NavLink>
                     </Menu.Item>
-                    <Menu.Item key="/users" className="navbar__item" >
-                        <NavLink to="/users" >
+                    <Menu.Item key={ urls.users } className="navbar__item" >
+                        <NavLink to={ urls.users } >
                             <icons.ContactsOutlined />
                             Users
                         </NavLink>
                     </Menu.Item>
-                    <Menu.Item key="/dialogs" className="navbar__item" >
-                        <NavLink to="/dialogs" >
+                    <Menu.Item key={ urls.dialogs } className="navbar__item" >
+                        <NavLink to={ urls.dialogs } >
                             <icons.MessageOutlined />
                             Dialogs
                         </NavLink>
                     </Menu.Item>
-                    <Menu.Item key="/profile" className="navbar__item" >
-                        <NavLink to="/profile" >
+                    <Menu.Item key={ urls.profile } className="navbar__item" >
+                        <NavLink to={ urls.profile } >
                             <icons.UserOutlined />
                             Profile
                         </NavLink>
                     </Menu.Item>
-                    <Menu.Item key="/logout" >
+                    <Menu.Item key={ urls.logout }  >
                         <Button
                             type="danger"
-                            className="btn"
+                            className="w-100 btn"
                             icon="logout"
-                            onClick={ () => {
-                                logout(token);
-                                localStorage.removeItem(storageKeys.isAuth);
-                                localStorage.removeItem(storageKeys.userInfo);
-                            } }
+                            onClick={ () => dispatch(logout()) }
                         >
                             Logout
                         </Button>
@@ -84,14 +74,14 @@ const NavBar: FC<NavBarPropsType> = ({ logout, token }) => {
                 mode="horizontal"
                 theme="dark"
             >
-                <Menu.Item key="/login" className="navbar__item" >
-                    <NavLink to="/login" >
+                <Menu.Item key={ urls.login } className="navbar__item" >
+                    <NavLink to={ urls.login }  >
                         <icons.LoginOutlined />
                         Login
                     </NavLink>
                 </Menu.Item>
-                <Menu.Item key="/register" className="navbar__item" >
-                    <NavLink to="/register" >
+                <Menu.Item key={ urls.register } className="navbar__item" >
+                    <NavLink to={ urls.register } >
                         <icons.SaveOutlined />
                         Register
                     </NavLink>
@@ -99,13 +89,8 @@ const NavBar: FC<NavBarPropsType> = ({ logout, token }) => {
             </Menu>
         );
 
-    return (
-        <>{ navigationsLinks }</>
-    )
+    return <>{ navigationsLinks }</>;
 };
 
 
-export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(
-    ({ user }: AppStateType): MapStateToPropsType => ({ token: user.token }),
-    { logout })
-(NavBar);
+export default connect()(NavBar);
