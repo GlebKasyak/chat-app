@@ -1,6 +1,6 @@
 import React, { FC, RefObject } from "react";
 import { Picker, BaseEmoji } from "emoji-mart";
-import { Button, Col, Form, Icon, Input, Row, Typography } from "antd";
+import { Button, Col, Form, Icon, Input, Row, Typography, PageHeader } from "antd";
 
 import { Messages, TypingMessage, Preloader } from "../../components";
 
@@ -22,19 +22,24 @@ type PropsType = {
     onScroll: (e: any) => void,
     chatRef: RefObject<HTMLDivElement>,
     isLoading: boolean,
-    dialogName: string
+    dialogName: string,
+    goBack: () => void
 }
 
 const ChatPage: FC<PropsType> = props => (
     <div className="container" >
         <div className="chat-page">
-            <Typography.Title level={2} className="center chat-page_title">
+            <Typography.Title level={4} className="center chat-page_title">
                 { props.dialogName }
             </Typography.Title>
 
             <Row className="chat-page__window" >
-                <div>
-                    sdfsdf
+                <div  className="chat-page__header" >
+                    <PageHeader
+                        onBack={ props.goBack }
+                        title="Go back"
+                    />
+
                 </div>
                 <div className="infinite-container" ref={ props.chatRef  } onScroll={ props.onScroll } >
                     { !!props.messages.length &&

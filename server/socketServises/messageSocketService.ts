@@ -22,7 +22,7 @@ const onJoin = (socket: Socket) => {
 
 const getPrevMessages = (socket: Socket) => {
     socket.on("previous messages", async (data: MessagesPortionType, callback: Callback<Array<IMessageDocument>>) => {
-        const dialog = await DialogService.getDialogWithMessages(data);
+        const dialog = await DialogService.getPrevMessages(data);
 
         callback(dialog.messages as Array<IMessageDocument>);
     });

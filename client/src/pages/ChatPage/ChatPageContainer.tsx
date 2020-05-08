@@ -45,19 +45,19 @@ const ChatPageContainer: FC<PropsType> = ({ user, clearDialogList }) => {
     });
     const [messages, setMessages] = useState<Array<IMessage> | []>([]);
     const [page, setPage] = useState(1);
+    const [lastMessageId, setLastMessageId] = useState("");
 
     useEffect(() => {
         if(page === 1) {
-          const { id, partner } = getDataFromQueryUrl(history.location.search);
-          setQueryData({ dialogId: id, partner });
+            const { id, partner } = getDataFromQueryUrl(history.location.search);
+            setQueryData({ dialogId: id, partner });
 
-          const data = { dialogId: id, page, limit };
-
-          if(!!user.firstName) {
-              socket.emit("join", data, (messages: Array<IMessage>) => {
-                  setMessages(messages.reverse());
-              });
-          }
+            if(!!user.firstName) {
+                socket.emit("join", { dialogId: id, limit }, (messages: Array<IMessage>) => {
+                    !!messages.length && setLastMessageId(messages[messages.length - 1]._id);
+                    setMessages(messages.reverse());
+                });
+            }
         }
 
         return () => {
@@ -69,7 +69,7 @@ const ChatPageContainer: FC<PropsType> = ({ user, clearDialogList }) => {
 
     useEffect(() => {
         socket.on("message", (message: IMessage) => {
-            setMessages((messages) => [...messages, message]);
+            setMessages(messages => [...messages, message]);
             setIsTyping(false);
             setShowEmojiPicker(false);
         });
@@ -95,7 +95,6 @@ const ChatPageContainer: FC<PropsType> = ({ user, clearDialogList }) => {
     useEffect(() => {
         if(messages.length <= limit && chatRef.current) {
             chatRef.current.scrollBy(0, chatRef.current.scrollHeight);
-            setPage(2);
         }
     }, [messages.length]);
 
@@ -106,17 +105,17 @@ const ChatPageContainer: FC<PropsType> = ({ user, clearDialogList }) => {
     }, [messages.length, isLoading, page]);
 
     const handleScroll = (e: UIEvent<HTMLDivElement>) => {
-        if(page > 1 && e.currentTarget.scrollTop === 0 && hasMore) {
+        if(e.currentTarget.scrollTop === 0 && hasMore) {
             setIsLoading(true);
 
             socket.emit("previous messages",
-                { dialogId: queryData.dialogId, page, limit }, (messages: Array<IMessage>) => {
-                setMessages(prevState => [...messages.reverse(), ...prevState]);
+                { dialogId: queryData.dialogId, page, limit, lastMessageId }, (messages: Array<IMessage>) => {
+                    setMessages(prevState => [...messages.reverse(), ...prevState]);
 
-                setPage(prevPage => prevPage + 1);
-                messages.length < limit && setHasMore(false);
-                setIsLoading(false);
-            });
+                    setPage(prevPage => prevPage + 1);
+                    messages.length < limit && setHasMore(false);
+                    setIsLoading(false);
+                });
         }
     }
 
@@ -158,6 +157,7 @@ const ChatPageContainer: FC<PropsType> = ({ user, clearDialogList }) => {
         chatRef={ chatRef }
         isLoading={ isLoading }
         dialogName={ queryData.partner }
+        goBack={ history.goBack }
     />
 }
 
@@ -165,3 +165,4 @@ export default connect<MapStateToProps, MapDispatchToProps, {}, AppStateType>(
     state => ({ user: UserSelectors.getUser(state) }),
     { clearDialogList: dialogActions.clearDialogListAC }
 )(ChatPageContainer);
+

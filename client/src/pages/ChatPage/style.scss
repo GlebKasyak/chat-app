@@ -13,14 +13,22 @@
     height: calc(100vh - 171px)!important;
 
     .infinite-container {
-      margin-top: 60px;
       position: relative;
       max-height: 70%;
       height: 100%;
       width: 100%;
       overflow-y: auto;
     }
+
+    #{ $self }__header {
+
+      .ant-page-header-heading-title {
+        font-size: 1rem;
+        color: rgba(0, 0, 0, .45);
+      }
+    }
   }
+
 
   &__form {
     display: flex;

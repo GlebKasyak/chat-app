@@ -20,5 +20,6 @@ export interface IDialogWithPartner extends Omit<IDialogDocument, "partner"> {
 export type MessagesPortionType = {
     dialogId: string,
     limit: number,
-    page: number
+    page?: number,
+    lastMessageId?: string
 }

@@ -5,7 +5,7 @@
 
   display: flex;
   position: relative;
-  padding: 0 5%;
+  padding: 0 2.5% 0 5%;
   margin-top: 0.2rem;
   justify-content: flex-start;
   flex-direction: row-reverse;
@@ -14,36 +14,37 @@
 
   &__time {
     position: absolute;
-    font-size: 0.625rem;
+    font-size: 0.6rem;
     bottom: 1.25rem;
-    right: 0.675rem;
+    color: rgba(0,0,0, .35);
   }
 
   &__author-name {
-    padding-left: 1.5rem;
+    padding-left: 0.75rem;
     color: #828282;
     display: flex;
     align-items: center;
     align-self: flex-end;
     letter-spacing: 0.3px;
     margin-bottom: 0;
+    font-size: 0.75rem;
   }
 
   &__text {
     width: 100%;
     letter-spacing: 0;
     float: left;
-    font-size: 1.1rem;
+    font-size: 0.75rem;
     word-wrap: break-word;
     margin-bottom: 0;
   }
 
   &__box {
-    border-radius: 0.75rem 0.75rem 0 0.75rem;
+    border-radius: 0.5rem 0.5rem 0 0.5rem;
     box-shadow: 0 0.3rem 0.3rem rgba(54, 116, 255, 0.196733);
     background: $white;
     color: $black;
-    padding: 0.625rem 1.25rem;
+    padding: 0.35rem 1.25rem;
     display: inline-block;
     max-width: 80%;
   }
@@ -52,19 +53,30 @@
     flex-direction: row;
     margin-right: auto;
     margin-left: 0;
+    padding: 0 5%;
 
     #{ $self }__time {
       right: auto;
+      left: 7%;
     }
 
     #{ $self }__box {
-      border-radius: 0.75rem 0.75rem 0.75rem 0;
+      border-radius: 0.5rem 0.5rem 0.5rem 0;
       background: $blue;
       color: $white;
     }
 
     #{ $self }__author-name {
-      padding-right: 1.5rem;
+      padding-right: 0.75rem;
+    }
+  }
+
+  @media (max-width: 575px) {
+    &--self {
+
+      #{ $self }__time {
+        left: 5%;
+      }
     }
   }
 }

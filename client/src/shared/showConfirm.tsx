@@ -2,9 +2,9 @@ import React from "react";
 import { Modal } from "antd";
 import icons from "./icons";
 
-export default (onOk: () => void) => (
+export default (onOk: () => void, title: string) => (
     Modal.confirm({
-        title: "Do you Want to delete this account?",
+        title,
         icon: <icons.ExclamationCircleOutlined />,
         onOk() { onOk() },
     })

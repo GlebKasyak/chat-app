@@ -41,7 +41,7 @@ const UsersPageContainer: FC<PropsType> = (
     const limit = 6;
     const history = useHistory();
 
-    const [page, setPage] = useState(Math.ceil(users.length / limit) + 1);
+    const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 

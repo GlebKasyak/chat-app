@@ -42,7 +42,7 @@ const ProfilePage: FC<PropsType> = ({ user, removeUser }) => (
 
         <DescriptionItem title="Email" content={ user.email } />
         <Button
-            onClick={ () => showConfirm(removeUser) }
+            onClick={ () => showConfirm(removeUser, "Do you Want to delete this account?") }
             type="danger"
             icon="delete"
             className="w-100 btn"

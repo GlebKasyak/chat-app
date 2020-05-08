@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { Dialog } from "../models";
+import { Dialog, Message } from "../models";
 import { ItemsDataType } from "../interfaces";
 import { IDialogDocument, IDialogWithPartner, MessagesPortionType } from "../interfaces/DialogInterface";
 
@@ -44,12 +44,25 @@ export default class UserService {
         await dialog.remove();
     };
 
-    static getDialogWithMessages = async ({ dialogId, limit, page }: MessagesPortionType): Promise<IDialogDocument> => {
+    static getDialogWithMessages = async ({ dialogId, limit }: MessagesPortionType): Promise<IDialogDocument> => {
         const dialog = await Dialog.findById(dialogId)
             .populate({
                 path: "messages",
                 populate: { path: "author" },
-                options: { skip: limit * (page - 1), limit, sort: { createdAt: -1 } }
+                options: { limit, sort: { createdAt: -1 } }
+            });
+
+        if(!dialog) throw new Error("Dialog is not found");
+        return dialog;
+    };
+
+    static getPrevMessages = async ({ dialogId, limit, page, lastMessageId }: MessagesPortionType): Promise<IDialogDocument> => {
+        const dialog = await Dialog.findById(dialogId)
+            .populate({
+                path: "messages",
+                populate: { path: "author" },
+                match: { _id: { $lt: lastMessageId } },
+                options: { skip: limit * (page! - 1) , limit, sort: { createdAt: -1 } }
             });
 
         if(!dialog) throw new Error("Dialog is not found");

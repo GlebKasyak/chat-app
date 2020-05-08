@@ -45,7 +45,7 @@ const DialogsPageContainer: FC<PropsType> = (
 
     const limit = 6;
 
-    const [page, setPage] = useState(Math.ceil(dialogs.length / limit) + 1);
+    const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
@@ -66,6 +66,10 @@ const DialogsPageContainer: FC<PropsType> = (
             fetchData();
         }
     }, [userId, page, dialogs.length, fetchData]);
+
+    useEffect(() => {
+        return () => clearDialogList();
+    }, [clearDialogList])
 
     const handleScroll = async () => {
         if(page > 1 && !ifSearching) {
