@@ -59,12 +59,6 @@ const ChatPageContainer: FC<PropsType> = ({ user, clearDialogList }) => {
                 });
             }
         }
-
-        return () => {
-            socket.emit("disconnect");
-            socket.off("join");
-        }
-
     }, [history.location.search, user.firstName, page]);
 
     useEffect(() => {
@@ -89,6 +83,7 @@ const ChatPageContainer: FC<PropsType> = ({ user, clearDialogList }) => {
         return () => {
             socket.off("typing");
             socket.off("message");
+            socket.off("join");
         };
     }, [clearDialogList]);
 
